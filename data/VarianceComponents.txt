@@ -1,0 +1,133 @@
+[1] "------------------------------------------"
+[1] "PHT"
+[1] "------------------------------------------"
+                                          gamma    component    std.error    z.ratio constraint
+Type!Type.var                      5.043484e+00 4.156812e+02 7.627777e+01  5.4495720   Positive
+Type:Env!Type.var                  3.275274e-01 2.699463e+01 7.412536e+00  3.6417529   Positive
+at(Env, 2009):Rep!Rep.var          2.831881e-01 2.334021e+01 2.615402e+01  0.8924136   Positive
+at(Env, 2010):Rep!Rep.var          1.081187e-07 8.911082e-06 6.951664e-07 12.8186327   Boundary
+at(Env, 2011):Rep!Rep.var          2.395227e-01 1.974133e+01 2.198302e+01  0.8980263   Positive
+at(RepEnv, 2009_1):Block!Block.var 7.793416e-02 6.423290e+00 1.126342e+01  0.5702787   Positive
+at(RepEnv, 2009_2):Block!Block.var 2.622776e-01 2.161678e+01 1.733079e+01  1.2473045   Positive
+at(RepEnv, 2009_3):Block!Block.var 5.469222e-01 4.507702e+01 2.750844e+01  1.6386614   Positive
+at(RepEnv, 2010_1):Block!Block.var 3.025702e-07 2.493767e-05 1.945424e-06 12.8186327   Boundary
+at(RepEnv, 2010_2):Block!Block.var 1.011929e-07 8.340262e-06 6.506359e-07 12.8186327   Boundary
+at(RepEnv, 2010_3):Block!Block.var 6.032783e-01 4.972186e+01 2.868222e+01  1.7335429   Positive
+at(RepEnv, 2011_1):Block!Block.var 3.024592e-01 2.492852e+01 1.881464e+01  1.3249533   Positive
+at(RepEnv, 2011_2):Block!Block.var 5.190115e-02 4.277664e+00 9.956055e+00  0.4296545   Positive
+at(RepEnv, 2011_3):Block!Block.var 1.658986e-01 1.367327e+01 1.397553e+01  0.9783719   Positive
+R!variance                         1.000000e+00 8.241945e+01 6.429660e+00 12.8186327   Positive
+[1] "------------------------------------------"
+[1] "EHT"
+[1] "------------------------------------------"
+                                          gamma    component    std.error     z.ratio constraint
+Type!Type.var                      2.166264e+00 1.350434e+02 2.522075e+01  5.35445613   Positive
+Type:Env!Type.var                  5.973989e-02 3.724143e+00 3.586351e+00  1.03842119   Positive
+at(Env, 2009):Rep!Rep.var          4.442500e-01 2.769424e+01 2.973307e+01  0.93142880   Positive
+at(Env, 2010):Rep!Rep.var          4.679284e-02 2.917033e+00 4.186838e+00  0.69671515   Positive
+at(Env, 2011):Rep!Rep.var          5.193731e-02 3.237736e+00 4.671604e+00  0.69306729   Positive
+at(RepEnv, 2009_1):Block!Block.var 6.799007e-02 4.238454e+00 7.414919e+00  0.57161168   Positive
+at(RepEnv, 2009_2):Block!Block.var 4.810682e-01 2.998946e+01 1.832568e+01  1.63647146   Positive
+at(RepEnv, 2009_3):Block!Block.var 2.291361e-01 1.428418e+01 1.181738e+01  1.20874338   Positive
+at(RepEnv, 2010_1):Block!Block.var 1.430607e-07 8.918303e-06 6.876359e-07 12.96951234   Boundary
+at(RepEnv, 2010_2):Block!Block.var 1.011929e-07 6.308295e-06 4.863941e-07 12.96951234   Boundary
+at(RepEnv, 2010_3):Block!Block.var 1.335280e-01 8.324044e+00 9.465949e+00  0.87936706   Positive
+at(RepEnv, 2011_1):Block!Block.var 1.252592e-01 7.808573e+00 8.961373e+00  0.87135895   Positive
+at(RepEnv, 2011_2):Block!Block.var 7.490756e-03 4.669685e-01 5.822147e+00  0.08020555   Positive
+at(RepEnv, 2011_3):Block!Block.var 2.180544e-01 1.359336e+01 1.138726e+01  1.19373447   Positive
+R!variance                         1.000000e+00 6.233931e+01 4.806604e+00 12.96951234   Positive
+[1] "------------------------------------------"
+[1] "DTS"
+[1] "------------------------------------------"
+                                          gamma    component    std.error    z.ratio constraint
+Type!Type.var                      7.602463e+00 5.889779e+00 1.120190e+00  5.2578405   Positive
+Type:Env!Type.var                  1.527525e+00 1.183404e+00 1.828808e-01  6.4709004   Positive
+at(Env, 2009):Rep!Rep.var          1.011929e-07 7.839614e-08 6.165080e-09 12.7161597   Boundary
+at(Env, 2010):Rep!Rep.var          7.345956e-02 5.691058e-02 7.815696e-02  0.7281574   Positive
+at(Env, 2011):Rep!Rep.var          4.543718e-01 3.520109e-01 3.698116e-01  0.9518654   Positive
+at(RepEnv, 2009_1):Block!Block.var 2.141330e-02 1.658931e-02 9.467885e-02  0.1752166   Positive
+at(RepEnv, 2009_2):Block!Block.var 7.487967e-01 5.801076e-01 3.247625e-01  1.7862521   Positive
+at(RepEnv, 2009_3):Block!Block.var 6.936257e-01 5.373655e-01 3.120126e-01  1.7222559   Positive
+at(RepEnv, 2010_1):Block!Block.var 1.011929e-07 7.839614e-08 6.165080e-09 12.7161597   Boundary
+at(RepEnv, 2010_2):Block!Block.var 5.799621e-07 4.493081e-07 3.533363e-08 12.7161597   Boundary
+at(RepEnv, 2010_3):Block!Block.var 3.005583e-01 2.328484e-01 1.861169e-01  1.2510868   Positive
+at(RepEnv, 2011_1):Block!Block.var 1.170485e-01 9.067978e-02 1.226948e-01  0.7390678   Positive
+at(RepEnv, 2011_2):Block!Block.var 3.884007e-07 3.009017e-07 2.366294e-08 12.7161597   Boundary
+at(RepEnv, 2011_3):Block!Block.var 1.182826e-01 9.163586e-02 1.254513e-01  0.7304499   Positive
+R!variance                         1.000000e+00 7.747198e-01 6.092404e-02 12.7161597   Positive
+[1] "------------------------------------------"
+[1] "DTP"
+[1] "------------------------------------------"
+                                          gamma    component    std.error     z.ratio constraint
+Type!Type.var                      8.555578e+00 5.125023e+00 9.594745e-01  5.34148932   Positive
+Type:Env!Type.var                  1.337165e+00 8.009980e-01 1.274077e-01  6.28688651   Positive
+at(Env, 2009):Rep!Rep.var          1.654321e-01 9.909829e-02 1.264289e-01  0.78382591   Positive
+at(Env, 2010):Rep!Rep.var          4.562044e-02 2.732788e-02 4.165444e-02  0.65606161   Positive
+at(Env, 2011):Rep!Rep.var          4.766219e-01 2.855095e-01 2.977251e-01  0.95896999   Positive
+at(RepEnv, 2009_1):Block!Block.var 2.825453e-01 1.692523e-01 1.425483e-01  1.18733321   Positive
+at(RepEnv, 2009_2):Block!Block.var 4.117796e-01 2.466671e-01 1.727443e-01  1.42793162   Positive
+at(RepEnv, 2009_3):Block!Block.var 4.154368e-01 2.488579e-01 1.771583e-01  1.40472077   Positive
+at(RepEnv, 2010_1):Block!Block.var 4.267681e-07 2.556456e-07 2.035703e-08 12.55810103   Boundary
+at(RepEnv, 2010_2):Block!Block.var 3.624774e-01 2.171338e-01 1.554186e-01  1.39709014   Positive
+at(RepEnv, 2010_3):Block!Block.var 8.739044e-02 5.234924e-02 8.776126e-02  0.59649598   Positive
+at(RepEnv, 2011_1):Block!Block.var 1.106808e-02 6.630081e-03 6.716192e-02  0.09871786   Positive
+at(RepEnv, 2011_2):Block!Block.var 1.011929e-07 6.061729e-08 4.826947e-09 12.55810103   Boundary
+at(RepEnv, 2011_3):Block!Block.var 1.158304e-01 6.938555e-02 9.401104e-02  0.73805749   Positive
+R!variance                         1.000000e+00 5.990271e-01 4.770045e-02 12.55810103   Positive
+[1] "------------------------------------------"
+[1] "ASI"
+[1] "------------------------------------------"
+                                          gamma    component    std.error     z.ratio constraint
+Type!Type.var                      2.741279e-01 1.944499e-01 5.665914e-02  3.43192486   Positive
+Type:Env!Type.var                  1.527371e-01 1.083426e-01 4.747299e-02  2.28219380   Positive
+at(Env, 2009):Rep!Rep.var          3.530480e-02 2.504311e-02 4.148288e-02  0.60369739   Positive
+at(Env, 2010):Rep!Rep.var          1.962682e-03 1.392209e-03 1.512795e-02  0.09202893   Positive
+at(Env, 2011):Rep!Rep.var          1.011929e-07 7.178017e-08 5.448544e-09 13.17419301   Boundary
+at(RepEnv, 2009_1):Block!Block.var 6.977561e-02 4.949464e-02 8.740629e-02  0.56625942   Positive
+at(RepEnv, 2009_2):Block!Block.var 2.081757e-01 1.476673e-01 1.249863e-01  1.18146775   Positive
+at(RepEnv, 2009_3):Block!Block.var 5.490071e-02 3.894327e-02 8.261388e-02  0.47138893   Positive
+at(RepEnv, 2010_1):Block!Block.var 7.792122e-02 5.527264e-02 9.134815e-02  0.60507681   Positive
+at(RepEnv, 2010_2):Block!Block.var 1.257498e-01 8.919939e-02 9.979417e-02  0.89383372   Positive
+at(RepEnv, 2010_3):Block!Block.var 1.011929e-07 7.178017e-08 5.448544e-09 13.17419301   Boundary
+at(RepEnv, 2011_1):Block!Block.var 1.011929e-07 7.178017e-08 5.448544e-09 13.17419301   Boundary
+at(RepEnv, 2011_2):Block!Block.var 1.011929e-07 7.178017e-08 5.448544e-09 13.17419301   Boundary
+at(RepEnv, 2011_3):Block!Block.var 1.011929e-07 7.178017e-08 5.448544e-09 13.17419301   Boundary
+R!variance                         1.000000e+00 7.093401e-01 5.384315e-02 13.17419301   Positive
+[1] "------------------------------------------"
+[1] "Adj.GY"
+[1] "------------------------------------------"
+                                          gamma    component    std.error    z.ratio constraint
+Type!Type.var                      6.517878e-01 1.190483e+02 3.124048e+01  3.8107056   Positive
+Type:Env!Type.var                  5.324631e-01 9.725373e+01 2.109617e+01  4.6100180   Positive
+at(Env, 2009):Rep!Rep.var          2.056389e-02 3.755970e+00 8.768924e+00  0.4283274   Positive
+at(Env, 2010):Rep!Rep.var          3.488587e-07 6.371861e-05 4.970629e-06 12.8190233   Boundary
+at(Env, 2011):Rep!Rep.var          1.293316e+00 2.362225e+02 2.566079e+02  0.9205583   Positive
+at(RepEnv, 2009_1):Block!Block.var 1.488257e-01 2.718284e+01 3.093986e+01  0.8785704   Positive
+at(RepEnv, 2009_2):Block!Block.var 4.536756e-01 8.286330e+01 5.374884e+01  1.5416761   Positive
+at(RepEnv, 2009_3):Block!Block.var 4.277110e-07 7.812090e-05 6.094138e-06 12.8190233   Boundary
+at(RepEnv, 2010_1):Block!Block.var 1.011929e-07 1.848276e-05 1.441823e-06 12.8190233   Boundary
+at(RepEnv, 2010_2):Block!Block.var 3.499502e-07 6.391798e-05 4.986182e-06 12.8190233   Boundary
+at(RepEnv, 2010_3):Block!Block.var 1.660607e+00 3.033078e+02 1.417940e+02  2.1390745   Positive
+at(RepEnv, 2011_1):Block!Block.var 1.003324e+00 1.832558e+02 9.666722e+01  1.8957390   Positive
+at(RepEnv, 2011_2):Block!Block.var 1.148955e+00 2.098552e+02 1.092546e+02  1.9207907   Positive
+at(RepEnv, 2011_3):Block!Block.var 1.210691e+00 2.211311e+02 1.137155e+02  1.9445992   Positive
+R!variance                         1.000000e+00 1.826488e+02 1.424826e+01 12.8190233   Positive
+[1] "------------------------------------------"
+[1] "TW"
+[1] "------------------------------------------"
+                                          gamma    component    std.error     z.ratio constraint
+Type!Type.var                      1.168924e+00 1.051209e+00 2.349146e-01  4.47485495   Positive
+Type:Env!Type.var                  5.689306e-01 5.116371e-01 1.045290e-01  4.89468854   Positive
+at(Env, 2009):Rep!Rep.var          3.818818e-02 3.434248e-02 6.187332e-02  0.55504503   Positive
+at(Env, 2010):Rep!Rep.var          1.933766e-01 1.739028e-01 1.878032e-01  0.92598432   Positive
+at(Env, 2011):Rep!Rep.var          7.144986e-02 6.425458e-02 8.201889e-02  0.78341202   Positive
+at(RepEnv, 2009_1):Block!Block.var 1.765887e-01 1.588055e-01 1.669066e-01  0.95146335   Positive
+at(RepEnv, 2009_2):Block!Block.var 2.509053e-01 2.256381e-01 1.875484e-01  1.20309288   Positive
+at(RepEnv, 2009_3):Block!Block.var 7.203586e-02 6.478157e-02 1.215292e-01  0.53305341   Positive
+at(RepEnv, 2010_1):Block!Block.var 7.507975e-03 6.751893e-03 1.015049e-01  0.06651788   Positive
+at(RepEnv, 2010_2):Block!Block.var 1.011929e-07 9.100237e-08 7.081521e-09 12.85068183   Boundary
+at(RepEnv, 2010_3):Block!Block.var 1.011929e-07 9.100237e-08 7.081521e-09 12.85068183   Boundary
+at(RepEnv, 2011_1):Block!Block.var 3.679473e-07 3.308936e-07 2.574911e-08 12.85068183   Boundary
+at(RepEnv, 2011_2):Block!Block.var 5.267237e-02 4.736806e-02 1.129411e-01  0.41940488   Positive
+at(RepEnv, 2011_3):Block!Block.var 6.653539e-02 5.983501e-02 1.224091e-01  0.48881199   Positive
+R!variance                         1.000000e+00 8.992961e-01 6.998042e-02 12.85068183   Positive
