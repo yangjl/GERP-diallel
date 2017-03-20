@@ -1,15 +1,15 @@
 ## Jinliang Yang
-## Oct. 13th, 2014
+## 03-19-2017
 ## phenotypic data of offpvp diallel
 
 #setwd("~/Documents/Github/pvpDiallel/")
-trait5fold <- function(times=10, typep="valHyb", outdir="largedata/pheno/CV5fold/"){
+trait5fold <- function(traitfile="data/hyb_heterosis.csv", times=10, typep="valHyb", outdir="largedata/pheno/CV5fold/"){
   
-  trait <- read.csv("data/trait_matrix_updated_BPH.csv")
+  trait <- read.csv(traitfile)
   ### => Table_S1.trait_matrix.csv
-  trait$Hyb <- paste(trait$P1, trait$P2, sep="x")
+  trait$Hyb <- paste(trait$Par1, trait$Par2, sep="x")
   ti <- c("ASI", "DTP", "DTS", "EHT",  "GY", "PHT",  "TW")
-  parent <- unique(c(as.character(trait$P1), as.character(trait$P2)))
+  parent <- unique(c(as.character(trait$Par1), as.character(trait$Par2)))
   
   dir.create(outdir, showWarnings = FALSE)
   
@@ -25,7 +25,7 @@ trait5fold <- function(times=10, typep="valHyb", outdir="largedata/pheno/CV5fold
     
     for(i in 1:7){
       pheno <- subset(trait, trait==ti[i])
-      pheno <- pheno[, c("Hyb", typep, "valP1")]
+      pheno <- pheno[, c("Hyb", typep, "valPar1")]
       names(pheno) <- c("Genotype", ti[i], "Fix")
       pheno$Fix <- 1
       
@@ -64,10 +64,24 @@ set.seed(12345)
 # total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
 trait5fold(times=100, typep="valHyb", outdir="largedata/pheno/CV5fold/")
 
+#### MPH
+set.seed(12345)
+# total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
+trait5fold(times=100, typep="MPH", outdir="largedata/pheno/CV5fold_MPH/") 
+
+#### pMPH
+set.seed(12345)
+# total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
+trait5fold(times=100, typep="pMPH", outdir="largedata/pheno/CV5fold_pMPH/") 
+
+
+
+
+
 #### BPHmax
 set.seed(12345)
 # total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
-trait5fold(times=100, typep="BPHmax", outdir="largedata/pheno/CV5fold_BPHmax/") 
+#trait5fold(times=100, typep="BPHmax", outdir="largedata/pheno/CV5fold_BPHmax/") 
 
 #### pBPHmax
 set.seed(12345)
@@ -84,15 +98,6 @@ set.seed(12345)
 # total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
 trait5fold(times=100, typep="pBPHmin", outdir="largedata/pheno/CV5fold_pBPHmin/") 
 
-#### MPH
-set.seed(12345)
-# total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
-trait5fold(times=100, typep="pBPHmax", outdir="largedata/pheno/CV5fold_MPH/") 
-
-#### pMPH
-set.seed(12345)
-# total file 7 traits x 5fold x 10 sample =350 x 2(test file and validation file)
-trait5fold(times=100, typep="pBPHmax", outdir="largedata/pheno/CV5fold_pMPH/") 
 
 #### pBPH
 set.seed(12345)
