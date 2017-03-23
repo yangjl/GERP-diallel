@@ -21,7 +21,7 @@ for(i in 1:10){
     gerp3 <- rbind(gerp3, sub)
 }
 dim(gerp3)
-# 282710      5
+# 410183      5
 
 names(gerp)[3] <- "RSv2"
 gerp23 <- merge(gerp, gerp3[, c("marker", "RS")], by.x="agpv3", by.y="marker")
@@ -42,6 +42,54 @@ res <- subset(res, !is.na(gen))
 t.test(subset(res, gen < 0.5)$mgerp, subset(res, gen > 0.5)$mgerp)
 write.table(res, "cache/mgerp_cm.csv", sep=",", row.names = FALSE, quote = FALSE)
 
+
+
+##########################
+plotmgerp <- function(mgerp, getpdf, outfile, ...){
+    
+    #mgerp <- read.csv("cache/mgerp_cm.csv")
+    
+    mgerp <- mgerp[order(mgerp$gen),]
+    plx <- predict(loess(mgerp$mgerp ~ mgerp$gen), se=T)
+    x <- mgerp$gen
+    y <- mgerp$mgerp
+    
+    plot(x, y, ...)
+    lines(mgerp$gen, plx$fit, col="cornflowerblue", lwd=2)
+    lines(mgerp$gen, plx$fit - qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+    lines(mgerp$gen, plx$fit + qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+    
+    if(getpdf == TRUE){
+        pdf(outfile, width=wt, height=ht)
+        par(mar=c(5,5,4,2))
+        plot(x, y, ...)
+        lines(mgerp$gen, plx$fit, col="cornflowerblue", lwd=2)
+        lines(mgerp$gen, plx$fit - qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+        lines(mgerp$gen, plx$fit + qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+        
+        dev.off()
+    }
+}
+
+mgerp <- read.csv("cache/mgerp_cm.csv")
+par(font= 2, font.lab= 2, font.axis= 2)
+fs <- 1.6 # times bigger than default
+ht= 6; wt= 6 #figure height and weight
+getpdf <- TRUE # get figures in seperated pdf [TRUE] or not [FALSE]
+plotmgerp(mgerp, getpdf=TRUE, outfile="graphs/Fig1d.pdf",
+        pch=16, col="antiquewhite3", xlab="Recombination Rate (cM/Mb)", ylab="GERP Score", 
+        main="", cex.axis=fs, cex.lab=fs)
+
+cor.test(mgerp$mgerp, mgerp$gen)
+
+# get figures in seperated pdf [TRUE] or not [FALSE]
+plotmgerp(mgerp=subset(mgerp, gen < 0.5), getpdf=FALSE, outfile="graphs/Fig1d.pdf",
+          pch=16, col="antiquewhite3", xlab="Recombination Rate (cM/Mb)", ylab="GERP Score", 
+          main="", cex.axis=fs, cex.lab=fs)
+
+
+
+res <- read.csv("cache/mgerp_cm.csv")
 cutoff <- quantile(res$gen, c(0.25, 0.5, 0.75))
 res$sq <- 0
 res[res$gen < cutoff[1], ]$sq <- 1
@@ -49,9 +97,10 @@ res[res$gen >= cutoff[1] & res$gen < cutoff[2], ]$sq <- 2
 res[res$gen >= cutoff[2] & res$gen < cutoff[3], ]$sq <- 3
 res[res$gen >= cutoff[3], ]$sq <- 4
 
+library("beanplot")
 pdf("graphs/Fig1d.pdf", width=5, height=5)
 #par(mar = c(7, 4, 4, 2) + 0.1)
-beanplot(mgerp ~ sq, data = res, kernel="cosine", ll = 0.04, cex=1.5, side = "no", cut=10, ylim=c(0.5, 1.5),
+beanplot(mgerp ~ sq, data = res, kernel="cosine", ll = 0.04, cex=1.5, side = "no", cut=10, ylim=c(0.5, 5),
          border = NA, col=list("#cd5b45", "antiquewhite3", "antiquewhite3", "antiquewhite3"), 
          xaxt="n", ylab="GERP Score", xlab="Recombination rate in quantile intervals")
 #axis(side =1, at =1:4, las=3, labels =c("[0, 25%)", "[25%, 50%)", "[50%, 75%)", "[75%, 100%)"))
