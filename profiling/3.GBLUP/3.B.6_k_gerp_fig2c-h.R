@@ -120,8 +120,19 @@ getlty <- function(df, eff, cutoff=0.05){
 
 ##########################################################
 #####
-geno <- read.csv("largedata/GERPv2/gerpsnp_506898.csv")
-geno <- geno[, 1:5]
+geno <- fread("largedata/gerpsnp_v3_410183.csv", data.table=FALSE)
+geno <- geno[, 1:4]
+
+res2 <- fread("cache/kval_perse_5x.csv", data.table=FALSE)
+
+out <- merge(res2, geno,  by.x="snpid", by.y="marker")
+write.table(out, "largedata/lcache/kval_perse_5x_gerpv3.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+
+
+
+
+
 
 toremove=TRUE
 for(i in 1){
