@@ -24,7 +24,8 @@ write.table(trait, "table/STable_heterosis.csv", sep=",", row.names=FALSE, quote
 ##########
 library(plyr)
 loh <- ddply(trait, .(trait), summarise,
-             h = median(pMPH))
+             h = mean(pMPH),
+             sd = sd(pMPH))
 loh <- loh[order(loh$h),]
-write.table(loh, "cache/loh_pMPH_median.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(loh, "table/STable_pMPH_mean_var.csv", sep=",", row.names=FALSE, quote=FALSE)
 
