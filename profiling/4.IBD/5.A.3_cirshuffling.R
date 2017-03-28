@@ -12,7 +12,17 @@ CirShuffling <- function(gerp=gerp, SN=1000000, times=10, outfile="allsnps_11m_g
 }
 
 #########
-library(data.table, lib="~/bin/Rlib/")
+library(data.table)
+gerp <- data.frame()
+for(i in 1:10){
+    g <- fread(paste0("largedata/GERPv3/AGPv3_gerp_chr", i, ".csv"), data.table=FALSE)
+    gerp <- rbind(gerp, g)
+}
+
+
+
+##########
+
 gerp <- fread("largedata/SNP/allsnps_11m_gerpv2_tidy.csv", sep=",")
 gerp <- subset(gerp, RS>0) #506898      5
 write.table(gerp, "largedata/newGERPv2/allgeno/gerpv2_b0_cs0.csv", sep=",",
