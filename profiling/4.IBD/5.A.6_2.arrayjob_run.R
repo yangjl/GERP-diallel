@@ -86,11 +86,19 @@ inputdf3$out <- paste0(gsub(".*/|.txt", "", inputdf3$trainpheno),
 write.table(inputdf3, "largedata/newGERPv2/inputdf_h2_perse_42000.csv", sep=",", quote=FALSE)
 
 inputdf3 <- read.csv("largedata/newGERPv2/inputdf_h2_perse_42000.csv")
+inputdf3$geno <- gsub("pvpDiallel", "GERP-diallel", inputdf3$geno)
+inputdf3$trainpheno <- gsub("pvpDiallel", "GERP-diallel", inputdf3$trainpheno)
+inputdf3$testpheno <- gsub("pvpDiallel", "GERP-diallel", inputdf3$testpheno)
+inputdf3$out <- paste0(gsub(".*/|.txt", "", inputdf3$trainpheno), 
+                       gsub(".*gerpv2_b0|.gs.newbin", "", inputdf3$geno))
+
+write.table(inputdf3, "largedata/newGERPv2/inputdf_h2_perse_42000.csv", sep=",", quote=FALSE)
+
 run_GenSel4(inputdf=inputdf3, inpdir="largedata/newGERPv2/allgeno_perse_k5", cmdno=500,
             shid = "slurm-script/run_gensel_h2_array.sh",
-            email="yangjl0930@gmail.com", runinfo = c(TRUE, "med", 1) )
+            email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm", 1) )
 ###>>> In this path: cd /home/jolyang/Documents/Github/pvpDiallel
-###>>> RUN: sbatch -p med --mem 2600 --ntasks=1 slurm-script/run_gensel_h2_array.sh
+###>>> RUN: sbatch -p bigmemm --mem 6G --ntasks=1 --time=100:00:00 slurm-script/run_gensel_h2_array.sh
 
 
 

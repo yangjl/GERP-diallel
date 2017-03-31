@@ -43,7 +43,7 @@ SplitName <- function(infile=resout){
 
 #### extract with real data
 collect_res <- function(dir="largedata/newGERPv2/allgeno_perse_d/"){
-  res1 <- harvestCV(dir=dir, fileptn="\\.ghatREL2")
+  res1 <- harvestCV(dir=dir, fileptn="\\.ghatREL1")
   res2 <- SplitName(infile=res1) #885
   #rand1 <- subset(rand1, trait != "asi")
   #rand1$trait <- tolower(rand1$trait)
