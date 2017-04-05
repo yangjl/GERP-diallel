@@ -69,19 +69,19 @@ write.table(res_k[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
 
 
 ######### trait bph
-res_a <- collect_res(dir="largedata/newGERPv2/allgeno_bph_a/") ### done
+res_a <- collect_res(dir="largedata/newGERPv2/allgeno_mph_a/") ### done
 write.table(res_a[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
-            "largedata/newGERPv2/res_a2_bph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
+            "largedata/newGERPv2/res_a2_mph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-res_d <- collect_res(dir="largedata/newGERPv2/allgeno_bph_d/") ### done
+res_d <- collect_res(dir="largedata/newGERPv2/allgeno_mph_d/") ### done
 write.table(res_d[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
-            "largedata/newGERPv2/res_d2_bph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
+            "largedata/newGERPv2/res_d2_mph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-res_k5 <- collect_res(dir="largedata/newGERPv2/allgeno_bph_k5/") ### done
+res_k5 <- collect_res(dir="largedata/newGERPv2/allgeno_mph_k5/") ### done
 write.table(res_k5[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
-            "largedata/newGERPv2/res_k5_bph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
+            "largedata/newGERPv2/res_k5_mph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-res_k <- collect_res(dir="largedata/newGERPv2/allgeno_bph_k/") ### done
+res_k <- collect_res(dir="largedata/newGERPv2/allgeno_mph_k/") ### done
 write.table(res_k[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
             "largedata/newGERPv2/res_realk_bph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 

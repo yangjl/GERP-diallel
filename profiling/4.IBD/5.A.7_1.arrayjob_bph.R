@@ -79,7 +79,7 @@ run_GenSel4(inputdf=inputdf2, inpdir="largedata/newGERPv2/allgeno_mph_d", cmdno=
             shid = "slurm-script/run_gensel_d2_array.sh",
             email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm", 1) )
 ###>>> In this path: cd /home/jolyang/Documents/Github/pvpDiallel
-###>>> RUN: sbatch -p bigmemm --mem 5G --ntasks=1 --time=80:00:00 slurm-script/run_gensel_d2_array.sh
+###>>> RUN: sbatch -p serial --mem 1500 --ntasks=1 --time=80:00:00 slurm-script/run_gensel_d2_array.sh
 
 ### k=0.5
 inputdf3 <- get_inputdf(mygeno=h2, phenopwd)

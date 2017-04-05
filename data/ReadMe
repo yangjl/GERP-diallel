@@ -1,0 +1,31 @@
+How you obtained, organized, and labeled your dataset.
+How to reuse the data, such as which apps can analyze the data.
+
+
+ABOUT THE DATA
+
+Sequencing
+We extracted DNA from the 12 inbred lines and sheared the DNA on a Covaris (Woburn, Massachusetts) for library preparation.
+Libraries were prepared using an Illumina paired-end protocol with 180 bp fragments and sequenced using 100 bp paired-end reads on a HiSeq 2000. Raw sequencing data are available at NCBI SRA (PRJNA381642).
+
+Read mapping
+We trimmed raw sequence reads for adapter contamination with Scythe  (\url{https://github.com/vsbuffalo/scythe}) and for quality and sequence length ($\geq 20$ nucleotides) with Sickle (\url{https://github.com/najoshi/sickle}).
+We mapped filtered reads to the maize B73 reference genome (AGPv2) with bwa-mem, keeping reads with mapping quality (MAPQ) higher than 10 and with a best alignment score higher than the second best one for further analyses.
+
+SNP calling
+We called single nucleotide polymorphisms (SNPs) using the $mpileup$ function from samtools  \citep{Li2009}.
+To deal with known issues with paralogy in maize \citep{Chia2012}, SNPs were filtered to be heterozygous in fewer than 3 inbred lines, have a mean minor allele depth of at least 4, have a mean depth across all individuals less than 30 and have missing alleles in fewer than 6 inbred lines.
+Alignments and genotypes for each of the 12 inbreds are available at iPlant.
+
+
+DATA ORGANIZATION
+
+ReadMe: this file
+SRA_metadata_acc_inbred12: metadata for NCBI SRA submission
+GERP/
+	Alignment/: multi-species alignment results for GERP calculation
+	GERPv2/: GERP results on AGPv2 coordinates
+bam_SNP/
+	FinalSNPs_all.txt: The SNP calls on AGPv2 coordinates
+	bam_BWA-mem/: bam files on AGPv2 coordinates
+fastq/: raw fastq files, the same as the ones on NCBI SRA (PRJNA381642).
