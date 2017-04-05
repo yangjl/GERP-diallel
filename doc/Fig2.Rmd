@@ -66,9 +66,9 @@ library(reshape2)
 source("lib/multiplot.R")
 
 plot_eff <- function(outfile, getpdf){
-  res1 <- read.csv("cache/gblup_var.csv")
+  res1 <- read.csv("cache/gblup_var_updated.csv")
   res2 <- read.csv("cache/kval_perse_5x.csv")
-  med <- read.csv("cache/loh_pBPHmax_median.csv")
+  med <- read.csv("cache/loh_pMPH_median.csv")
   bymed <- med[order(med$h),]
 
   #######
