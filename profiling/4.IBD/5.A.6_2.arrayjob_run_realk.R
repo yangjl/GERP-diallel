@@ -94,6 +94,23 @@ run_GenSel4(inputdf=inputdf2, inpdir="largedata/newGERPv2/allgeno_mph_k", cmdno=
 ###>>> RUN: sbatch -p bigmemm --mem 5G --ntasks=1 --time=80:00:00 slurm-script/run_gensel_mph_realk_array.sh
 
 
+df <- read.csv("largedata/newGERPv2/inputdf_realk_bph_42000.csv")
+df$geno <- gsub("pvpDiallel", "GERP-diallel", df$geno)
+df$trainpheno <- gsub("pvpDiallel", "GERP-diallel", df$trainpheno)
+df$testpheno <- gsub("pvpDiallel", "GERP-diallel", df$testpheno)
+df$trainpheno <- gsub("CV5fold_MPH", "CV5fold_pMPH", df$trainpheno)
+df$testpheno <- gsub("CV5fold_MPH", "CV5fold_pMPH", df$testpheno)
+df$out <- gsub("_bph_", "_pmph_", df$out)
+
+write.table(df, "largedata/newGERPv2/inputdf_realk_pmph_42000.csv", sep=",", quote=FALSE)
+
+
+inputdf2 <- read.csv("largedata/newGERPv2/inputdf_realk_pmph_42000.csv")
+run_GenSel4(inputdf=inputdf2, inpdir="largedata/newGERPv2/allgeno_pmph_k", cmdno=100,
+            shid = "slurm-script/run_gensel_pmph_realk_array.sh",
+            email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm", 1) )
+###>>> In this path: cd /home/jolyang/Documents/Github/GERP-diallel
+###>>> RUN: sbatch -p bigmemm --mem 5G --ntasks=1 --time=80:00:00 slurm-script/run_gensel_pmph_realk_array.sh
 
 
 
