@@ -138,11 +138,21 @@ boxplot(DR ~ geno*ordered, data=dres, notch=FALSE,
 ###### get some values
 res <- read.table("data/sup_deleterious_hmp3.txt", header=T)
 
+boxplot(DR ~ geno*ordered, data=res, notch=FALSE, 
+        col=(c("gold","darkgreen")), names=c("landrace", "maize", "landrace", "maize", "landrace", "maize"),
+        main="", xlab="", ylab="Deleterious Load per bp")
+
+
 a <- subset(res, type == "overall")
 t.test(subset(a, geno == "landrace")$DR, subset(a, geno == "maize")$DR)
 
-mean(subset(a, geno == "landrace")$DN)
-mean(subset(a, geno == "maize")$DN)
+a1 <- mean(subset(a, geno == "landrace")$DN)
+b1 <- mean(subset(a, geno == "landrace")$nonmiss)
+
+a2 <- mean(subset(a, geno == "maize")$DN)
+b2 <- mean(subset(a, geno == "maize")$nonmiss)
+
+
 mean(subset(a, geno == "maize")$nonmiss)*0.007
 
 b <- subset(res, type == "fixed")

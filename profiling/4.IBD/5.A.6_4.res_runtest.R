@@ -66,3 +66,10 @@ res5 <- read.csv("largedata/newGERPv2/res_k5_mph_42000.csv")
 t5 <- runttest(res0=res5)
 
 
+###### MPH
+res1 <- read.csv("largedata/newGERPv2/res_realk_mph_42000.csv")
+t1 <- runttest(res0=res1)
+
+t5 <- runttest(res0=res_k)
+
+
