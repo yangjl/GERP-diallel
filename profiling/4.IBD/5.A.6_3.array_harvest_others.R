@@ -68,7 +68,7 @@ write.table(res_k[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
             "largedata/newGERPv2/res_realk_perse_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 
-######### trait bph
+######### trait mph
 res_a <- collect_res(dir="largedata/newGERPv2/allgeno_mph_a/") ### done
 write.table(res_a[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
             "largedata/newGERPv2/res_a2_mph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
@@ -83,5 +83,10 @@ write.table(res_k5[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
 
 res_k <- collect_res(dir="largedata/newGERPv2/allgeno_mph_k/") ### done
 write.table(res_k[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
-            "largedata/newGERPv2/res_realk_bph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
+            "largedata/newGERPv2/res_realk_mph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+######### trait pmph
+res_k <- collect_res(dir="largedata/newGERPv2/allgeno_pmph_k/") ### done
+write.table(res_k[, c("file", "trait", "r", "cs", "mode", "cv", "sp", "type")],
+            "largedata/newGERPv2/res_realk_pmph_42000.csv", sep=",", row.names=FALSE, quote=FALSE)
 

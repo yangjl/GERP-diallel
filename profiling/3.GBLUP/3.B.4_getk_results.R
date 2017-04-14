@@ -46,13 +46,13 @@ getk <- function(filepath="largedata/snpeff/pBPH/", deff, q=0.9, method="q"){
         out <- h2[, c("snpid", "k", "Effect_A", "Effect_D", "h2_mrk_A", "h2_mrk_D", "H2_mrk")]
         if(sum(out$k > 1) > 0){
             if(sum(out$k > 2) > 0){
-                out[out$k > 2, ]$k <- 2.1
+                out[out$k > 2, ]$k <- 2
             }
             #out[out$k > 1, ]$k <- rescale(out[out$k > 1, ]$k, c(1, 2))
         }
         if(sum(out$k < -1) > 0){
             if(sum(out$k < -2) > 0){
-                out[out$k < -2, ]$k <- -2.1
+                out[out$k < -2, ]$k <- -2
             }
             #out[out$k < -1, ]$k <- rescale(out[out$k < -1, ]$k, c(-2, -1))
         }
