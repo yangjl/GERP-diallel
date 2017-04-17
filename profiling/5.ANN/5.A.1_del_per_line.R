@@ -25,12 +25,22 @@ res <- get_per_line(g)
 write.table(res, "cache/del_per_line.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 comp_two_lines <- function(g){
+    
     out <- data.frame()
     for(i in 10:(ncol(g)-1)){
         message(sprintf("###>>> working on [ %s ]", names(g)[i]))
         for(j in (i+1):ncol(g)){
-            c <- subset(sub, g[, "del"] == g[, i] | g[, "del"] == g[, j])
-            tem <- data.frame(pid1=names(g)[i], pid2=names(g)[j], comp=nrow(c))
+            
+            ### complement
+            c <- subset(g, g[, "del"] == g[, i] | g[, "del"] == g[, j])
+            
+            ### additive genetic load
+            # ad <- subset(sub, (g[, "del"] != g[, i] & g[, i] != "N")  | (g[, "del"] == g[, j] & g[, j] != "N"))
+            
+            ### non-complement
+            dd <- subset(g, (g[, "del"] != g[, i] & g[, i] != "N")  & (g[, "del"] != g[, j] & g[, j] != "N"))
+            
+            tem <- data.frame(pid1=names(g)[i], pid2=names(g)[j], comp=nrow(c), load=nrow(dd))
             out <- rbind(out, tem)
         }
     }
@@ -38,7 +48,78 @@ comp_two_lines <- function(g){
 }
 
 ### deleterious alleles carried by each line
-res2 <- comp_two_lines(g)
+ids <- sort(names(g)[10:ncol(g)])
+newg <- g[, c(names(g)[1:9], ids)]
+
+res2 <- comp_two_lines(g=newg)
 write.table(res2, "cache/del_complemenation.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+
+##########
+comp_trait <- function(res2, pheno){
+    
+    out <- data.frame()
+    t <- as.character(unique(pheno$trait))
+    for(i in 1:length(t)){
+        subp <- subset(pheno, trait %in% t[i])
+        subp <- merge(res2[, 3:5], subp, by="Hyb")
+        if(nrow(subp) == 66){
+            fit1 <- lm(valHyb ~ comp, data=subp)
+            fit2 <- lm(valHyb ~ load, data=subp)
+            fit3 <- lm(BPHmax ~ comp, data=subp)
+            fit4 <- lm(BPHmax ~ load, data=subp)
+            fit5 <- lm(pBPHmax ~ comp, data=subp)
+            fit6 <- lm(pBPHmax ~ load, data=subp)
+            fit7 <- lm(MPH ~ comp, data=subp)
+            fit8 <- lm(MPH ~ load, data=subp)
+            fit9 <- lm(pMPH ~ comp, data=subp)
+            fit10 <- lm(pMPH ~ load, data=subp)
+            
+            
+            tem <- data.frame(trait=t[i], pheno=rep(c("perse", "BPHmax", "pBPHmax", "MPH", "pMPH"), each=2),
+                              geno=rep(c("comp", "load"), times=5))
+            pval <- c(summary(fit1)$coefficients[2,4],
+                      summary(fit2)$coefficients[2,4],
+                      summary(fit3)$coefficients[2,4],
+                      summary(fit4)$coefficients[2,4],
+                      summary(fit5)$coefficients[2,4],
+                      summary(fit6)$coefficients[2,4],
+                      summary(fit7)$coefficients[2,4],
+                      summary(fit8)$coefficients[2,4],
+                      summary(fit9)$coefficients[2,4],
+                      summary(fit10)$coefficients[2,4])
+            
+            est <- c(summary(fit1)$coefficients[2,1],
+                      summary(fit2)$coefficients[2,1],
+                      summary(fit3)$coefficients[2,1],
+                      summary(fit4)$coefficients[2,1],
+                      summary(fit5)$coefficients[2,1],
+                      summary(fit6)$coefficients[2,1],
+                      summary(fit7)$coefficients[2,1],
+                      summary(fit8)$coefficients[2,1],
+                      summary(fit9)$coefficients[2,1],
+                      summary(fit10)$coefficients[2,1])
+            tem$pval <- pval  
+            tem$est <- est
+  
+        }else{
+            stop("err! not 66 ids!")
+        }
+        out <- rbind(out, tem)
+    }
+    return(out)
+}
+
+
+res2 <- read.csv("cache/del_complemenation.csv")
+res2$Hyb <- paste(res2$pid1, res2$pid2, sep="_")
+
+pheno <- read.csv("data/hyb_heterosis.csv")
+pheno$Hyb <- paste(pheno$Par1, pheno$Par2, sep="_")
+
+
+res3 <- comp_trait(res2, pheno)
+write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
+
 
 
