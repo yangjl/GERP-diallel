@@ -24,6 +24,11 @@ get_per_line <- function(g){
 res <- get_per_line(g)
 write.table(res, "cache/del_per_line.csv", sep=",", row.names=FALSE, quote=FALSE)
 
+perline <- read.csv("cache/del_per_line.csv")
+perline$percent <- with(perline, round(del/tot, 3))
+with(perline, mean(del))
+with(perline, range(del))
+
 comp_two_lines <- function(g){
     
     out <- data.frame()
@@ -114,6 +119,14 @@ comp_trait <- function(res2, pheno){
 res2 <- read.csv("cache/del_complemenation.csv")
 res2$Hyb <- paste(res2$pid1, res2$pid2, sep="_")
 
+mean(res2$load)
+range(res2$load)
+
+idx1 <- which.min(res2$load)
+idx2 <- which.max(res2$load)
+res2[idx1,]
+res2[idx2,]
+
 pheno <- read.csv("data/hyb_heterosis.csv")
 pheno$Hyb <- paste(pheno$Par1, pheno$Par2, sep="_")
 
@@ -121,5 +134,6 @@ pheno$Hyb <- paste(pheno$Par1, pheno$Par2, sep="_")
 res3 <- comp_trait(res2, pheno)
 write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-
+res3 <- read.csv("cache/complementation_rest.csv")
+subset(res3, pheno %in% "perse" & geno %in% "load" & pval < 0.05)
 
