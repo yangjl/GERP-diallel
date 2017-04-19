@@ -47,6 +47,31 @@ plotloh(getpdf, outfile="graphs/Fig1a.pdf",
 # Figure 1b
 
 ```{r, eval=TRUE, fig.width=ht, fig.height=wt}
+plot_load <- function(getpdf, outfile, ...){
+  dres <- read.table("data/sup_deleterious_hmp3.txt", header=T)
+  
+  boxplot(DR ~ geno*ordered, data=dres, border=c("darkgreen","darkblue"), col="grey",  ...)
+  #text(cex=fs, x=x-.25, y=-1.25, H2$Traits, xpd=TRUE, srt=45, pos=2)
+  if(getpdf == TRUE){
+    pdf(outfile, width=ht, height=wt)
+    par(mar=c(5,5,4,2))
+    boxplot(DR ~ geno*ordered, data=dres, border=c("darkgreen","darkblue"), col="grey",  ...)
+
+    box()
+    dev.off()
+  }
+}
+
+plot_load(getpdf, outfile="graphs/Fig1d_v3.pdf",
+          names=c("LR", "MZ", "LR", "MZ", "LR", "MZ"),
+          xlab="", ylab="Deleterious Load per bp",
+          main="", cex.axis=fs, cex.lab=fs)
+
+```
+
+# Figure 1c
+
+```{r, eval=TRUE, fig.width=ht, fig.height=wt}
 plotReg <- function(getpdf, outfile, ...){
   snptab <- read.csv("cache/daf_gerp2.csv")
   snptab <- snptab[order(snptab$GERP2),]
@@ -76,64 +101,43 @@ plotReg(getpdf, outfile="graphs/Fig1b_v3.pdf",
         main="", cex.axis=fs, cex.lab=fs)
 ```
 
-# Figure 1c
-
-To run this chunk, we need to install `beanplot` package.
-
-```{r, eval=TRUE, fig.width=wt, fig.height=ht}
-library("beanplot")
-plotbeans <- function(getpdf, outfile, ...){
-  
-  res <- read.csv("cache/mgerp_cm.csv")
-  cutoff <- quantile(res$gen, c(0.25, 0.5, 0.75))
-  res$sq <- 0
-  res[res$gen < cutoff[1], ]$sq <- 1
-  res[res$gen >= cutoff[1] & res$gen < cutoff[2], ]$sq <- 2
-  res[res$gen >= cutoff[2] & res$gen < cutoff[3], ]$sq <- 3
-  res[res$gen >= cutoff[3], ]$sq <- 4
-
-  beanplot(mgerp ~ sq, data = res, kernel="cosine", ll = 0.04, cex=fs, side = "no", cut=10, ylim=c(0.5, 1.5),
-         border = NA, col=list("#cd5b45", "antiquewhite3", "antiquewhite3", "antiquewhite3"), 
-         xaxt="n", ...)
-  axis(side =1, at =1:4, labels =c("25", "50", "75", "100"), cex.axis=fs)
-
-  if(getpdf == TRUE){
-    pdf(outfile, width=wt, height=ht)
-    par(mar=c(5,5,4,2))
-    beanplot(mgerp ~ sq, data = res, kernel="cosine", ll = 0.04, cex=1.5, side = "no", cut=10, ylim=c(0.5, 1.5),
-         border = NA, col=list("#cd5b45", "antiquewhite3", "antiquewhite3", "antiquewhite3"), 
-         xaxt="n", ...)
-    axis(side =1, at =1:4, labels =c("25", "50", "75", "100"), cex.axis=fs)
-    dev.off()
-  }
-}
-
-plotbeans(getpdf, outfile="graphs/Fig1c_v3.pdf",
-          ylab="GERP Score", xlab="Quantiles of cM/Mb",
-          cex.axis=fs, cex.lab=fs)
-```
-
 # Figure 1d
 
-```{r, eval=TRUE, fig.width=ht, fig.height=wt}
-plot_load <- function(getpdf, outfile, ...){
-  dres <- read.table("data/sup_deleterious_hmp3.txt", header=T)
-  
-  boxplot(DR ~ geno*ordered, data=dres, border=c("darkgreen","darkblue"), col="grey",  ...)
-  #text(cex=fs, x=x-.25, y=-1.25, H2$Traits, xpd=TRUE, srt=45, pos=2)
-  if(getpdf == TRUE){
-    pdf(outfile, width=ht, height=wt)
-    par(mar=c(5,5,4,2))
-    boxplot(DR ~ geno*ordered, data=dres, border=c("darkgreen","darkblue"), col="grey",  ...)
 
-    box()
-    dev.off()
-  }
+```{r, eval=TRUE, fig.width=wt, fig.height=ht}
+##########################
+plotmgerp <- function(mgerp, getpdf, outfile, ...){
+    
+    #mgerp <- read.csv("cache/mgerp_cm.csv")
+    
+    mgerp <- mgerp[order(mgerp$gen),]
+    plx <- predict(loess(mgerp$mgerp ~ mgerp$gen), se=T)
+    x <- mgerp$gen
+    y <- mgerp$mgerp
+    
+    plot(x, y, ...)
+    lines(mgerp$gen, plx$fit, col="cornflowerblue", lwd=2)
+    lines(mgerp$gen, plx$fit - qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+    lines(mgerp$gen, plx$fit + qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+    
+    if(getpdf == TRUE){
+        pdf(outfile, width=wt, height=ht)
+        par(mar=c(5,5,4,2))
+        plot(x, y, ...)
+        lines(mgerp$gen, plx$fit, col="cornflowerblue", lwd=2)
+        lines(mgerp$gen, plx$fit - qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+        lines(mgerp$gen, plx$fit + qt(0.975,plx$df)*plx$se, lty=2, lwd=2, col="black")
+        
+        dev.off()
+    }
 }
 
-plot_load(getpdf, outfile="graphs/Fig1d_v3.pdf",
-          names=c("LR", "MZ", "LR", "MZ", "LR", "MZ"),
-          xlab="", ylab="Deleterious Load per bp",
-          main="", cex.axis=fs, cex.lab=fs)
-
+mgerp <- read.csv("cache/mgerp_cm.csv")
+plotmgerp(mgerp, getpdf=TRUE, outfile="graphs/Fig1d.pdf",
+        pch=16, col="antiquewhite3", xlab="Recombination Rate (cM/Mb)", ylab="GERP Score", 
+        main="", cex.axis=fs, cex.lab=fs)
 ```
+
+
+
+

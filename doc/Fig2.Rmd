@@ -4,11 +4,10 @@ output: pdf_document
 ---
 
 ```{r setup, include=TRUE}
-#setwd("~/Documents/Github/pvpDiallel/")
 knitr::opts_knit$set(root.dir=normalizePath('../'))
 ```
 
-To reproduce the figures, we should set `pvpDiallel` as the root path, i.e. `setwd("~/Documents/Github/pvpDiallel/")`. And then use `knitr` package to get a pdf file. Or simplely click `Knit PDF` icon on `RStudio`. Note, to produce panels into seperate pdf files, we should set `getpdf` into `TRUE` (i.e. `getpdf=TRUE`) when calling the plotting functions.
+To reproduce the figures, we should set `GERP-diallel/` as the root path, i.e. `setwd("~/Documents/Github/GERP-diallel/")`. And then use `knitr` package to get a pdf file. Or simplely click `Knit PDF` icon on `RStudio`. Note, to produce panels into seperate pdf files, we should set `getpdf` into `TRUE` (i.e. `getpdf=TRUE`) when calling the plotting functions.
 
 First of all, determine fond size and set the getpdf option:
 ```{r}
@@ -70,6 +69,8 @@ plot_eff <- function(outfile, getpdf){
   res2 <- read.csv("cache/kval_perse_5x.csv")
   med <- read.csv("cache/loh_pMPH_median.csv")
   bymed <- med[order(med$h),]
+  
+  cols <- c("#f6546a", "#daa520", "#00ff00", "#66cdaa", "#3b5998", "#8a2be2", "#ff00ff")
 
   #######
   theme_set(theme_grey(base_size = 18)) 
@@ -85,7 +86,9 @@ plot_eff <- function(outfile, getpdf){
           axis.title=element_text(size=fsize, face="bold"),
           legend.title = element_text(size=fsize, face="bold"),
           legend.text = element_text(size=fsize)) +
-    coord_flip() + xlab("Degree of Dominance (k)") + ylab("") + facet_grid(~ trait)
+      scale_color_manual(values=cols) +
+      coord_flip() + xlab("Degree of Dominance (k)") + 
+      ylab("") + facet_grid(~ trait)
   
   
   return(p2)
@@ -105,16 +108,20 @@ if(getpdf){
 
 ```{r, eval=TRUE, fig.width=13, fig.height=4}
 
-library(wesanderson)
+#library(wesanderson)
 library(data.table)
 source("lib/multiplot.R")
 
 plot_adk_gerp <- function(outfile, getpdf){
   
-  dat <- fread("largedata/gerpdat1x.csv", data.table=FALSE)
+  dat <- fread("largedata/gerpdat0x.csv", data.table=FALSE)
   dat$trait <- toupper(dat$trait)
-  med2 <- read.csv("cache/loh_pBPHmax_median.csv")
-  out <- read.csv("cache/eff_adk_1x.csv")
+  med <- read.csv("cache/loh_pMPH_median.csv")
+  
+  
+  out <- read.csv("cache/eff_adk_0x.csv")
+  out <- merge(med, out, by="trait")
+  out <- out[order(out$h),]
   #cols <- wes_palette(7, name = "Zissou", type = "continuous")
   cols <- c("#f6546a", "#daa520", "#00ff00", "#66cdaa", "#3b5998", "#8a2be2", "#ff00ff")
   theme_set(theme_grey(base_size = 18)) 
@@ -126,8 +133,8 @@ plot_adk_gerp <- function(outfile, getpdf){
   }
 
   lty1 <- getlty(df=out, eff="effa", cutoff=0.05)$l
-  p1 <- ggplot(dat, aes(x=RS, y=Effect_A, colour=factor(trait, levels=med2$trait),
-                        linetype=factor(trait, levels=med2$trait))) +
+  p1 <- ggplot(dat, aes(x=RS, y=Effect_A, colour=factor(trait, levels=out$trait),
+                        linetype=factor(trait, levels=out$trait))) +
     labs(colour="Traits") +
     theme_bw() +
     xlab("GERP Score") +
@@ -143,8 +150,8 @@ plot_adk_gerp <- function(outfile, getpdf){
           legend.text = element_text(size=fsize))
   
   lty2 <- getlty(df=out, eff="effd", cutoff=0.05)$l
-  p2 <- ggplot(dat, aes(x=RS, y=Effect_D, colour=factor(trait, levels=med2$trait),
-                        linetype=factor(trait, levels=med2$trait))) +
+  p2 <- ggplot(dat, aes(x=RS, y=Effect_D, colour=factor(trait, levels=out$trait),
+                        linetype=factor(trait, levels=out$trait))) +
     labs(colour="Traits") +
     theme_bw() +
     xlab("GERP Score") +
@@ -160,8 +167,8 @@ plot_adk_gerp <- function(outfile, getpdf){
           legend.text = element_text(size=fsize))
   
   lty3 <- getlty(df=out, eff="effk", cutoff=0.05)$l
-  p3 <- ggplot(dat, aes(x=RS, y=k, colour=factor(trait, levels=med2$trait),
-                        linetype=factor(trait, levels=med2$trait))) +
+  p3 <- ggplot(dat, aes(x=RS, y=k, colour=factor(trait, levels=out$trait),
+                        linetype=factor(trait, levels=out$trait))) +
     labs(colour="Traits") +
     theme_bw() +
     xlab("GERP Score") +
