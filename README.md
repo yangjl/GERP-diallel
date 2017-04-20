@@ -1,4 +1,4 @@
-# Welcome to `Deleterious Alleles`
+# Welcome to `GERP Deleterious Alleles` project
 
 This is a research repo for our project entitled "**incomplete dominance of deleterious alleles contributes substantially to trait variation and heterosis in maize**". The preprint manuscript could be found via [bioRxiv](http://biorxiv.org/content/early/2016/12/05/086132).
 
