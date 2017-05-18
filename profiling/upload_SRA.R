@@ -4,6 +4,10 @@ library("farmeR")
 cmd <- paste0("ascp -i ~/bin/aspera.openssh -TQ -l100m -k1 ",
               "-d /group/jrigrp4/diallel_fq/fastq ",
               "subasp@upload.ncbi.nlm.nih.gov:uploads/yangjl0930@gmail.com_7MfdNojq/GERP-diallel/")
+# ascp -i ~/bin/aspera.openssh -TQ -l100m -k1 -d /group/jrigrp4/diallel_fq/fastq subasp@upload.ncbi.nlm.nih.gov:uploads/yangjl0930@gmail.com_7MfdNojq/GERP-diallel/
+
+# ascp -i ~/bin/aspera.openssh -TQ -l1000m -k1 -d /lustre/work/schnablelab/jyang21/GERP-fq/fastq/* subasp@upload.ncbi.nlm.nih.gov:uploads/yangjl0930@gmail.com_7MfdNojq/GERP-diallel/
+
 
 set_farm_job(slurmsh = "slurm-script/upload_sra.sh",
              shcode = cmd, wd = NULL, jobid = "upload",

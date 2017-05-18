@@ -97,7 +97,7 @@ plotReg <- function(getpdf, outfile, ...){
 }
 
 plotReg(getpdf, outfile="graphs/Fig1b_v3.pdf",
-        pch=16, col="antiquewhite3", xlab="GERP Score", ylab="Deleterious Allele Frequency", 
+        pch=16, col="antiquewhite3", xlab="GERP Score", ylab="Allele Frequency", 
         main="", cex.axis=fs, cex.lab=fs)
 ```
 
