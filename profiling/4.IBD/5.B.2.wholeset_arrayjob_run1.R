@@ -8,7 +8,7 @@ setup_newbin_array <- function(
   ### note: it is for 7 traits with 3 modes for one random shuffling or real data
   genobase="largedata/SNP/geno_b0_cs/gerpv2_b0_cs0", 
   jobdir="slurm-scripts/get_newbin", inpbase= "cs0",
-  ptype="pBPHmax", priors,
+  ptype="pBPHmax",
   jobbase="run_newbin_job", jobid =1){
   
   ### prior information
@@ -21,20 +21,17 @@ setup_newbin_array <- function(
   dir.create(jobdir, showWarnings = FALSE)
   shcommand <- c()
   for(myti in 1:7){
-    for(modei in "h2"){
-        
+    for(mode in c("a2", "d2", "h2")){
       ### the first one use gs
-      myinp <- paste0(jobdir, "/", inpbase, "_", ti[myti], "_", modei,"_ws", ".inp")
+      myinp <- paste0(jobdir, "/", inpbase, "_", ti[myti], "_", mode,"_ws", ".inp")
       GenSel_inp(
-        inp= myinp, pi=0.99,
+        inp= myinp, pi=0.999,
         findsale ="no",
-        geno=paste0(wd, "/", genobase, "/", ti[myti], "_k_", modei, ".gs.newbin"), 
+        geno=paste0(wd, "/", genobase, "_", ti[myti], "_", mode, ".gs.newbin"), 
         pheno=paste0(wd, "/largedata/pheno/wholeset/", tolower(ti[myti]), "_", ptype, ".txt"),
         chainLength=41000, burnin=1000, 
-        #varGenotypic = gen[myti], 
-        #varResidual = res[myti]
-        varGenotypic = subset(priors, trait == ti[myti] & mode == modei)$genvar, 
-        varResidual = subset(priors, trait == ti[myti] & mode == modei)$resvar
+        varGenotypic = gen[myti], 
+        varResidual = res[myti]
       )
       shcommand <- c(shcommand, paste("GenSel4R", myinp))
     }
@@ -53,26 +50,19 @@ setup_newbin_array <- function(
                wd=NULL, jobid=jobbase, email="yangjl0930@gmail.com")
   
 }
-
-###########
 #newbin_array_7traits_3modes(genobase="largedata/SNP/geno_b0_cs/gerpv2_b0_cs0",
-p1 <- read.csv("cache/gerpsnp_wholeset_perse.csv")
 setup_newbin_array(
   ### note: it is for 7 traits with 3 modes for one random shuffling or real data
   genobase="largedata/SNP/geno_b0_cs/gerpv2_b0_cs0", 
-  ptype="perse", prior=p1,
+  ptype="perse",
   jobdir="slurm-scripts/gwas_b0", inpbase= "ws",
   jobbase="run_ws", jobid =1)
-
-
-
-
-#### BPH
-p2 <- read.csv("cache/gerpsnp_wholeset_bph.csv")
+  
+#### BPHmax
 setup_newbin_array(
   genobase="largedata/SNP/bph_b0_cs/gerpv2_b0_cs0", 
-  ptype="BPH", prior=p2,
-  jobdir="slurm-script/gwas_bph_b0", inpbase= "ws",
+  ptype="BPHmax",
+  jobdir="slurm-scripts/gwas_bph_b0", inpbase= "ws_bph",
   jobbase="run_bph_ws", jobid =1)
 
 ######################################################################################
@@ -88,13 +78,17 @@ main_res <- function(res = res, ptype="perse"){
 
 ##### perse results
 source("~/Documents/Github/zmSNPtools/Rcodes/collect_gsout.R")
-res1 <- collect_gsout(dir = "slurm-script/gwas_b0", fileptn ="out")
+res1 <- collect_gsout(dir = "slurm-scripts/gwas_b0", fileptn ="out")
 
 res1 <- main_res(res=res1, ptype="perse")
 write.table(res1, "cache/gerpsnp_wholeset_perse.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 ### hph results
-res2 <- collect_gsout(dir = "slurm-script/gwas_bph_b0", fileptn ="out")
+res2 <- collect_gsout(dir = "slurm-scripts/gwas_bph_b0", fileptn ="out")
 
 res2 <- main_res(res=res2, ptype="bph")
+res2$file <- gsub("bph_", "", res2$file)
+res2$trait <- gsub("_.*", "", res2$file)
 write.table(res2, "cache/gerpsnp_wholeset_bph.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+
