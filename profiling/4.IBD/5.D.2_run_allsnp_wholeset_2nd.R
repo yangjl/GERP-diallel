@@ -59,10 +59,27 @@ setup_newbin_array <- function(
 p1 <- read.csv("cache/gerpsnp_wholeset_perse.csv")
 setup_newbin_array(
   ### note: it is for 7 traits with 3 modes for one random shuffling or real data
-  genobase="largedata/SNP/geno_b0_cs/gerpv2_b0_cs0", 
+  genobase="largedata/sgeno_100k", 
   ptype="perse", prior=p1,
-  jobdir="slurm-scripts/gwas_b0", inpbase= "ws",
+  jobdir="slurm-script/subgeno", inpbase= "ws",
   jobbase="run_ws", jobid =1)
+
+###>>> setup array jobs: [ 1 - 7]
+###>>> In this path: cd /home/jolyang/Documents/Github/GERP-diallel
+###>>> [ note: --ntasks=INT, number of cup ]
+###>>> [ note: --mem=16000, 16G memory ]
+###>>> RUN: sbatch -p bigmemh --time=8:00:00 slurm-script/subgeno/run_ws.sh
+
+
+
+
+
+
+
+
+
+
+
 
 
 
