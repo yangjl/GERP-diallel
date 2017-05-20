@@ -1,0 +1,162 @@
+---
+title: "Genetic Relationship Matrix"
+date: 05-18-2017
+author: Jinliang Yang
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir=normalizePath('../../'))
+```
+
+## Extract GBS Data
+
+On `farm`, extract GBS data (v2.7 on AGPv3, imputed) for 14 genotypes.
+
+```{r, eval=FALSE}
+
+#### GBS genotypes
+gt0 <- read.csv("~/Documents/Github/zmHapMap/data/AllZeaGBSv2.7_publicSamples_metadata20140411.csv", header=T)
+%gt <- subset(gt0, Project %in% c("2010 Ames Lines", "AMES Inbreds", "Ames282") )
+gt$Pedigree <- as.character(gt$Pedigree)
+
+### 12 ids
+d <- read.csv("cache/hmp3_deleterious_ratio.csv")
+d <- subset(d, geno == "maize" & chr ==1 & type == "seg")
+id <- as.character(unique(d$id))
+
+sub <- subset(gt, toupper(DNASample) %in% toupper(id) | Pedigree %in% toupper(id))
+as.character(unique(sub$DNASample))
+length(unique(sub$DNASample, sub$Pedigree))
+
+sub <- sub[order(sub$DNASample),]
+sub[sub$DNASample == "Mo17",]$Pedigree <- "MO17"
+
+subout <- subset(sub, !duplicated(Pedigree) & Pedigree != "" & Pedigree != "B73 (check)")
+write.table(subout, "cache/elite_GBS_sampleid.csv", sep=",", row.names=FALSE, quote=FALSE)
+```
+
+## extract subset of the data: biallelic SNPs only and no-update
+
+there is no `PH207` in the GBS file.
+
+```{r, eval=FALSE}
+library(farmeR)
+ids <- read.csv("cache/elite_GBS_sampleid.csv")
+write.table(ids[, 1], "cache/id11.txt", sep="\t", row.names=FALSE, col.names=FALSE, quote=FALSE)
+
+cd <- "cd /home/jolyang/dbcenter/AllZeaGBS/"
+tabix <- "tabix -p vcf AllZeaGBSv2.7_publicSamples_imputedV3b_agpv3_sorted.vcf.gz"
+cmd <- paste("bcftools view -S /home/jolyang/Documents/Github/GERP-diallel/cache/id11.txt",
+             "--no-update -m2 -M2 -v snps", 
+             "AllZeaGBSv2.7_publicSamples_imputedV3b_agpv3_sorted.vcf.gz",
+             "-Oz -o AllZeaGBSv2.7_elite11_imputedV3b.vcf.gz")
+set_farm_job(slurmsh = "slurm-script/bcf2plink.sh",
+             shcode = c(cd, tabix, cmd), wd = NULL, jobid = "bcftools",
+             email = "yangjl0930@gmail.com", runinfo = c(TRUE, "bigmemm", "2", "16G", "8:00:00"))
+```
+
+
+## Filtering
+```{r, eval=FALSE}
+### extract id and convert to PLINK
+cmd1 <- c("mv /home/jolyang/dbcenter/AllZeaGBS/AllZeaGBSv2.7_elite11_imputedV3b.vcf.gz largedata/kinship2/")
+cmd2 <- "cd largedata"
+cmd3 <- paste("plink -vcf AllZeaGBSv2.7_elite11_imputedV3b.vcf.gz",
+              "--biallelic-only --snps-only --set-missing-var-ids @_# --out GBSv2.7_elite", 
+              "--allow-extra-chr --make-bed --freq --missing")
+
+set_farm_job(slurmsh = "slurm-script/bcf2plink.sh",
+             shcode = c(cmd1, cmd2, cmd3), wd = NULL, jobid = "maf",
+             email = "yangjl0930@gmail.com", runinfo = c(TRUE, "bigmemh", "3", "23000"))
+```
+
+
+## Remove those SNPs using PLINK and make bed files
+
+```{r, eval=FALSE}
+cmd <- paste("plink -bfile GBSv2.7_elite",
+             "--allow-extra-chr --maf 0.01 --geno 0.6",
+             "--out GBSv2.7_elite11_flt")
+
+set_farm_job(slurmsh = "slurm-script/bcf2plink.sh",
+             shcode = cmd, wd = NULL, jobid = "maf",
+             email = "yangjl0930@gmail.com", runinfo = c(TRUE, "bigmemh", "3", "23000"))
+```
+
+## GEMMA for relatedness calculation
+```{bash}
+# Note fam must not be -9
+cmd <- "gemma -bfile GBSv2.7_elite11_flt -gk 2 -o mx_gbs"
+
+```
+
+Estimate the genetic relationship matrix (GRM) between pairs of individuals from a set of SNPs and save the lower triangle elements of the GRM to binary files, e.g. test.grm.bin, test.grm.N.bin, test.grm.id.
+
+
+
+--------------------------------------
+
+## GRM from whole genome sequencing
+
+
+### cat maize and BKN lines of bisnp
+```{bash}
+ls | grep "bisnp_n35.vcf.gz$" > list_bisnp
+bcftools concat -f list_bisnp -Oz -o chrall_bisnp_n35.vcf.gz
+mv /home/jolyang/dbcenter/HapMap/HapMap3/chrall_bisnp_n35.vcf.gz largedata/kinship2/
+
+plink -vcf chrall_bisnp_n35.vcf.gz --biallelic-only --snps-only --set-missing-var-ids @_#  --allow-extra-chr --make-bed --freq --missing --out chrall_bisnp_n35
+
+plink -bfile chrall_bisnp_n35 --allow-extra-chr --maf 0.01 --geno 0.6 --make-bed --out chrall_bisnp_n35_flt
+
+### vi %s/-9/1/g
+gemma -bfile chrall_bisnp_n35_flt -gk 2 -o mx_wgs
+
+```
+
+
+## 
+
+```{r}
+set.seed(1234)
+m1 <- matrix(rnorm(100), nrow=10)
+m2 <- matrix(rnorm(100), nrow=10)
+
+cancor(m1, m2)
+
+cor(c(m1), c(m2))
+
+```
+
+## Get the correlation of the two matrices
+
+```{r}
+## Genetic relationship matrix
+m1 <- read.table("largedata/kinship2/output/mx_gbs.sXX.txt")
+id1 <- read.table("largedata/kinship2/GBSv2.7_elite.fam")
+
+sp <- read.csv("cache/elite_GBS_sampleid.csv")
+id1 <- merge(id1, sp[, c("FullName", "Pedigree")], by.x="V1", by.y="FullName")
+rownames(m1) <- id1$Pedigree
+colnames(m1) <- id1$Pedigree
+
+m2 <- read.table("largedata/kinship2/output/mx_wgs.sXX.txt")
+id2 <- read.table("largedata/kinship2/chrall_bisnp_n35_flt.fam")
+id2$V1 <- toupper(id2$V1)
+rownames(m2) <- id2$V1
+colnames(m2) <- id2$V1
+
+out2 <- m2[as.character(id1$Pedigree), as.character(id1$Pedigree)]
+
+
+cor(c(as.matrix(m1)), c(as.matrix(out2)))
+## 0.9946492
+
+```
+
+
+
+
+

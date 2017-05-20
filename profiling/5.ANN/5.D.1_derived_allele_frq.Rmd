@@ -1,0 +1,56 @@
+---
+title: "Sorguhum derived allele"
+author: Jinliang Yang
+date: 05-19-2017
+output: html_notebook
+---
+
+
+Here, we follow jeff's scripts in shared dir `/group/jrigrp/Share/annotations/gerp` to re-calculate the GERP score to correct the ref bias issue. 
+
+### Simons method to correct the B73 Ref bias
+
+Modified the R code `binDerivedAlleleFreq.R`.
+
+```{r}
+library(data.table)
+library(plyr)
+library(tidyr)
+library(reshape2)
+
+hmp <- fread("/group/jrigrp/Share/annotations/gerp/hm32_skinny.txt", data.table=FALSE)
+
+hmp$snpid <- paste(hmp$chr, hmp$pos, sep="_")
+
+
+g3 <- read.csv("largedata/gerpsnp_v3_410183.csv")
+
+dim(subset(hmp, snpid %in% g3$agpv3))
+
+gerp3 <- merge(hmp[, 3:6], g3, by.x="snpid", by.y="agpv3")
+
+df <- gerp3
+
+#bin the derived allele frequency into 1% bin
+# the same as gerp3$bin <- round(gerp3$derivedAlleleFreq, 2)
+#df$bin <- cut(df$derivedAlleleFreq, breaks=seq(0, 1, 0.01), labels=seq(0, 0.99, 0.01))
+df$bin <- round(df$derivedAlleleFreq, 2)
+
+#subtract the data to those B73==Sorghum
+df$B73 <- as.character(df$B73)
+B73anc <- subset(df, B73 != derivedAllele & B73 != "N")
+
+newg <- ddply(B73anc, .(bin), summarise,
+              newgerp=mean(RS))
+
+# B73 derived alleles
+B73d <- subset(df, B73 == derivedAllele & B73 != "N")
+
+B73d <- merge(B73d, newg, by="bin", all.x=TRUE)
+B73anc$newgerp <- B73anc$RS
+
+out <- rbind(B73d, B73anc)
+write.table(out, "largedata/gerpsnp_v3_104970_sorghum.csv", sep=",", row.names=FALSE, quote=FALSE )
+
+```
+
