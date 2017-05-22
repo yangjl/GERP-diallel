@@ -36,6 +36,9 @@ setup_newbin_array <- function(
       shcommand <- c(shcommand, paste("GenSel4R", myinp))
     }
   }
+  
+  
+  
   #################
   jobstart = jobid
   for(i in 1:length(shcommand)){

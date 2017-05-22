@@ -52,6 +52,13 @@ run_gerpIBD(inputdf1, email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm"
 
 
 
+
+
+
+
+
+
+
 ############### trait-specific k for BPH
 gerpfile <- list.files(path="largedata/newGERPv2/allgeno", pattern="csv$", full.names=TRUE)
 kfile <- list.files(path="largedata/snpeff/BPH", pattern="_k.txt$", full.names=TRUE)
