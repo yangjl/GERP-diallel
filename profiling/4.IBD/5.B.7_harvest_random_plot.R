@@ -31,4 +31,27 @@ dev.off()
 
 
 
+##########
+res1 <- read.csv("largedata/var_explained_shuffling.csv")
+r0 <- subset(res1, stime == 0)
+r100k <- read.csv("largedata/var_explained_100kb.csv")
+
+r2 <- rbind(r0, r100k)
+r2$trait <- toupper(r2$trait)
+p2 <- ggplot(r2, aes(x=factor(trait), y=h2, 
+                       fill=factor(stime, levels=c("ws", "0"), labels=c("whole", "subset")))) + 
+    geom_bar(position=position_dodge(), stat="identity") +
+    xlab("") +
+    ylim(c(0,1)) +
+    ylab("Proportion of Variance Explained") +
+    ggtitle("") + theme_bw() +
+    labs(fill="SNP Set") +
+    theme(axis.text.x = element_text(angle = 0, size=12))
+
+#theme(axis.text.x = element_text(angle = 90, hjust = 1, size=12))
+
+pdf("graphs/SFig_var_sub_100k.pdf", width=5, height=5)
+p2
+dev.off()
+
 

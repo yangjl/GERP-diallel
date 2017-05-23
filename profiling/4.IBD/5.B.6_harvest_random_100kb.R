@@ -55,3 +55,9 @@ res2 <- SplitName(infile=res1) #885
 write.table(res2, "largedata/var_explained_shuffling.csv", 
             sep=",", row.names=FALSE, quote=FALSE)
 
+#### 100-kb
+res1 <- harvest_gsout(dir="slurm-script/subgeno", fileptn="\\.out")
+res2 <- SplitName(infile=res1) #885
+res2$trait <- gsub("ws_|_h2.*", "", res2$file)
+write.table(res2, "largedata/var_explained_100kb.csv", 
+            sep=",", row.names=FALSE, quote=FALSE)
