@@ -8,12 +8,18 @@ g <- fread("largedata/gerpsnp_v3_345176_del.csv", data.table=FALSE)
 ## Note col "del" is the major from the alignment, should be the beneficial alleles
 
 get_per_line <- function(g){
+    g$del <- as.character(g$del)
     out <- data.frame()
     for(i in 10:ncol(g)){
-        sub <- subset(g, g[, i] != "N")
+        g[, i] <- as.character(g[, i])
+        sub <- subset(g, !(g[, i] %in% "N"))
         b <- subset(sub, g[, "del"] == g[, i])
+        b <- b[!is.na(b$snpid), ]
+        
         d <- subset(sub, g[, "del"] != g[, i])
-        tem <- data.frame(pid=names(g)[i], tot=nrow(sub), ben=nrow(b), del=nrow(d))
+        d <- d[!is.na(d$snpid), ]
+        lod <- sum(d$RS)
+        tem <- data.frame(pid=names(g)[i], tot=nrow(sub), ben=nrow(b), del=nrow(d), sumRS=lod)
         
         out <- rbind(out, tem)
     }
@@ -61,14 +67,18 @@ write.table(res2, "cache/del_complemenation.csv", sep=",", row.names=FALSE, quot
 
 
 ##########
-comp_trait <- function(res2, pheno){
+comp_trait <- function(res2, pheno, excludeB73=TRUE){
     
     out <- data.frame()
     t <- as.character(unique(pheno$trait))
+    if(excludeB73){
+        res2 <- subset(res2, !(pid1 %in% "B73"))
+    }
+    
     for(i in 1:length(t)){
         subp <- subset(pheno, trait %in% t[i])
         subp <- merge(res2[, 3:5], subp, by="Hyb")
-        if(nrow(subp) == 66){
+        if(nrow(subp) > 50){
             fit1 <- lm(valHyb ~ comp, data=subp)
             fit2 <- lm(valHyb ~ load, data=subp)
             fit3 <- lm(BPHmax ~ comp, data=subp)
@@ -108,7 +118,7 @@ comp_trait <- function(res2, pheno){
             tem$est <- est
   
         }else{
-            stop("err! not 66 ids!")
+            stop("err! less < 50 ids!")
         }
         out <- rbind(out, tem)
     }
@@ -131,9 +141,14 @@ pheno <- read.csv("data/hyb_heterosis.csv")
 pheno$Hyb <- paste(pheno$Par1, pheno$Par2, sep="_")
 
 
-res3 <- comp_trait(res2, pheno)
+res3 <- comp_trait(res2, pheno, excludeB73 = TRUE)
 write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 res3 <- read.csv("cache/complementation_rest.csv")
-subset(res3, pheno %in% "perse" & geno %in% "load" & pval < 0.05)
+subset(res3, pheno %in% "MPH" & geno %in% "load" & pval < 0.05)
 
+res4 <- comp_trait(res2, pheno, excludeB73 = FALSE)
+write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+res3 <- read.csv("cache/complementation_rest.csv")
+subset(res3, pheno %in% "MPH" & geno %in% "load" & pval < 0.05)
