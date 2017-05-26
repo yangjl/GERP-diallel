@@ -49,6 +49,27 @@ set_gblup <- function(out_pwd, out_gpar="gparameter.dat", out_snpe="output_snpef
 ##########
 library("data.table")
 
+trait <- read.table("largedata/pheno/wholeset/trait_mx_noB73.dat", header=TRUE)
+perse_idx <- grep("perse", names(trait))
+#pmph_idx <- grep("pBPHmax", names(trait))
+#pmph_idx[1] <- grep("asi_pBPHmin", names(trait))
+names(trait[perse_idx])
+#[1] "asi_pBPHmin" "dtp_pBPHmax" "dts_pBPHmax" "eht_pBPHmax" "gy_pBPHmax" 
+#[6] "pht_pBPHmax" "tw_pBPHmax" 
+
+for(i in 1:7){
+    set_gblup(out_pwd="largedata/GBLUP/",
+              out_gpar= paste0("gp_", names(trait)[i], ".dat"), 
+              out_snpe= paste0(names(trait)[i], "_snpeff_ce.snpe"),
+              geno_path_pattern=c("largedata/SNP/", "genotype_h"),
+              phenofile="largedata/pheno/wholeset/trait_mx_noB73.dat", trait_col=perse_idx[i], 
+              mapfile="largedata/SNP/genotype_h.map")
+}
+
+
+
+
+
 trait <- read.table("largedata/pheno/wholeset/trait_mx.dat", header=TRUE)
 perse_idx <- grep("perse", names(trait))
 #pmph_idx <- grep("pBPHmax", names(trait))
@@ -72,6 +93,8 @@ for(i in perse_idx){
 ###>>> run this [ greml_ce largedata/GBLUP/gp_gy_perse.dat > largedata/GBLUP//gy_perse_logff_ce.log ]
 ###>>> run this [ greml_ce largedata/GBLUP/gp_pht_perse.dat > largedata/GBLUP//pht_perse_logff_ce.log ]
 ###>>> run this [ greml_ce largedata/GBLUP/gp_tw_perse.dat > largedata/GBLUP//tw_perse_logff_ce.log ]
+
+
 
 
 trait <- read.table("largedata/pheno/wholeset/trait_mx.dat", header=TRUE)

@@ -3,7 +3,7 @@
 
 ##>>>>>
 library("beanplot")
-library("dplyr")
+library("plyr")
 
 avar5 <- read.csv("cache/rsnp_var_nf1.csv")
 
@@ -26,7 +26,30 @@ for(i in 1:nrow(myd0)){
   lines(x=c(i-0.3, i+0.3), y=c(myd0$nvar[i], myd0$nvar[i]), lwd=2, col="red")
 }
 
+############## No-B73 data
+avar5 <- read.csv("cache/rsnp_var_nf5.csv")
 
+avar5$frq1 <- round(avar5$frq, 1)
+res <- ddply(avar5, .(frq1, sample), summarise,
+             totvar = sum(totvar),
+             numsnp = sum(V1))
+res$nvar <- res$totvar/res$numsnp
+write.table(res, "cache/persnp_var_perse.csv", sep=",", row.names=FALSE, quote=FALSE)
+### Note: 0.15 is missing from the analysis for the random samples
+### therefore, concatenate 0.1 and 0.15 into a single catergory
+myd <- subset(res, sample != 0)
+myd0 <- subset(res, sample == 0)
+
+#### for trait perse
+pdf("graphs/SFig_var_per_SNP.pdf", height=5, width=5)
+beanplot(nvar ~ frq1, data = myd, ll = 0.04, cex=1.5, border = NA,
+         what=c(0, 1, 0, 1), col=c(c("grey", "black")), cex=1.3, 
+         main="Grain Yield excluding B73-related Hybrids",
+         xlab="Allele Frequency", ylab="Variance Explained" )
+for(i in 1:nrow(myd0)){
+    lines(x=c(i-0.3, i+0.3), y=c(myd0$nvar[i], myd0$nvar[i]), lwd=2, col="red")
+}
+dev.off()
 
 ##############
 beanplot(nvar ~ frq, data = myd, ll = 0.04, cex=1.5, border = NA,
@@ -39,7 +62,7 @@ for(i in 1:nrow(myd0)){
 
 
 
-avar1 <- read.csv("cache/rsnp_var_nf1.csv")
+avar1 <- read.csv("cache/rsnp_var_nf1_noB73.csv")
 
 ### Note: 0.15 is missing from the analysis for the random samples
 ### therefore, concatenate 0.1 and 0.15 into a single catergory
