@@ -5,7 +5,7 @@
 
 ##########################################
 getk <- function(filepath="largedata/snpeff/pBPH/", deff, q=0.9, method="q"){
-    files <- list.files(path=filepath, pattern="snpe$", full.names=TRUE)
+    files <- list.files(path=filepath, pattern="perse", full.names=TRUE)
     
     output <- data.frame()
     for(i in 1:length(files)){
@@ -72,7 +72,7 @@ library(data.table)
 deff <- fread("largedata/gerpsnp_v3_345176_del.csv", data.table=FALSE)
 
 ### var/#snp filteration
-for(i in 0:10){
+for(i in c(0,5)){
     res2 <- getk(filepath="largedata/snpeff/rsnp0", deff, q=i, method="var")
     write.table(res2, paste0("largedata/lcache/noB73_kval_perse_", i, "x.csv"), sep=",", row.names=FALSE, quote=FALSE)
 }
