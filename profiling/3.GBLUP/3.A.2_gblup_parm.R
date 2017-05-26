@@ -102,7 +102,7 @@ perse_idx <- grep("_perse", names(trait))
 
 #[1] "asi_perse" "dtp_perse" "dts_perse" "eht_perse" "gy_perse"  "pht_perse"
 #[7] "tw_perse" 
-for(k in 0:10){ 
+for(k in 10:10){ 
     for(i in perse_idx[5]){
         set_gblup(out_pwd= paste0("largedata/snpeff/rsnp", k, "/"),
                   out_gpar= paste0("gp_", names(trait)[i], ".dat"), 
