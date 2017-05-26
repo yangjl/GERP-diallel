@@ -50,6 +50,17 @@ for(i in 0:10){
 write.table(out, "cache/rsnp_var_nf1.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 ### collect all data
+out <- data.frame()
+for(i in 0:10){
+    res1 <- getvar(gblup_efile=paste0("largedata/snpeff/rsnp", i, "/gy_perse_snpeff_ce.snpe"),
+                   genofile=paste0("largedata/SNP/randomsnp/rsnp", i, ".csv"), nf=1)
+    res1$sample <- i
+    out <- rbind(out, res1)
+}
+write.table(out, "cache/rsnp_var_nf1_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+
+### collect all data
 out5 <- data.frame()
 for(i in 0:10){
   res1 <- getvar(gblup_efile=paste0("largedata/snpeff/rsnp", i, "/gy_perse_snpeff_ce.snpe"),

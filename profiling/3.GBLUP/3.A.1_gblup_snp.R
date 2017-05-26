@@ -65,7 +65,7 @@ for(i in 9:10){
   geno_for_k(geno, outfile= paste0("largedata/SNP/randomsnp/rsnp", i, "_chr"), excludeB73=TRUE)
 }
 
-for(i in 3:10){
+for(i in 10:10){
     geno <- fread(paste0("largedata/SNP/randomsnp/rsnp", i, ".csv"), data.table=FALSE)
     
     ### output map file

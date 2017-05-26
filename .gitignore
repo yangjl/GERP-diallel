@@ -16,7 +16,7 @@ packrat/src/
 *.Rhistory
 largedata/
 slurm-log/
-slurm-scripts/
+slurm-script/
 1.R
 .RData
 README.html
