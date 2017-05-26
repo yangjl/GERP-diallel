@@ -48,7 +48,7 @@ set_gblup <- function(out_pwd, out_gpar="gparameter.dat", out_snpe="output_snpef
 }
 
 ##############################################################################
-library("data.table", lib="~/bin/Rlib/")
+library("data.table")
 
 trait <- read.table("largedata/pheno/wholeset/trait_mx.dat", header=TRUE)
 perse_idx <- grep("perse", names(trait))
@@ -97,3 +97,29 @@ for(k in 0:0){
 }
 ###>>> run this [ greml_ce largedata/snpeff/rsnp0/gp_gy_BPHmax.dat > largedata/snpeff/rsnp0//gy_BPHmax_logff_ce.log ]
 
+trait <- read.table("largedata/pheno/wholeset/trait_mx_noB73.dat", header=TRUE)
+perse_idx <- grep("_perse", names(trait))
+
+#[1] "asi_perse" "dtp_perse" "dts_perse" "eht_perse" "gy_perse"  "pht_perse"
+#[7] "tw_perse" 
+for(k in 0:10){ 
+    for(i in perse_idx[5]){
+        set_gblup(out_pwd= paste0("largedata/snpeff/rsnp", k, "/"),
+                  out_gpar= paste0("gp_", names(trait)[i], ".dat"), 
+                  out_snpe= paste0(names(trait)[i], "_snpeff_ce.snpe"),
+                  geno_path_pattern=c("largedata/SNP/randomsnp/", paste0("rsnp", k, "_chr")),
+                  phenofile="largedata/pheno/wholeset/trait_mx_noB73.dat", trait_col=i, 
+                  mapfile= paste0("largedata/SNP/randomsnp/rsnp", k, ".map"))
+    }
+}
+###>>> run this [ greml_ce largedata/snpeff/rsnp0/gp_gy_perse.dat > largedata/snpeff/rsnp0//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp1/gp_gy_perse.dat > largedata/snpeff/rsnp1//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp2/gp_gy_perse.dat > largedata/snpeff/rsnp2//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp3/gp_gy_perse.dat > largedata/snpeff/rsnp3//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp4/gp_gy_perse.dat > largedata/snpeff/rsnp4//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp5/gp_gy_perse.dat > largedata/snpeff/rsnp5//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp6/gp_gy_perse.dat > largedata/snpeff/rsnp6//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp7/gp_gy_perse.dat > largedata/snpeff/rsnp7//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp8/gp_gy_perse.dat > largedata/snpeff/rsnp8//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp9/gp_gy_perse.dat > largedata/snpeff/rsnp9//gy_perse_logff_ce.log ]
+###>>> run this [ greml_ce largedata/snpeff/rsnp10/gp_gy_perse.dat > largedata/snpeff/rsnp10//gy_perse_logff_ce.log ]

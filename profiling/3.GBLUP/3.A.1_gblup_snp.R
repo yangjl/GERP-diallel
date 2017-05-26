@@ -4,10 +4,14 @@
 
 
 ################
-geno_for_k <- function(geno, outfile="test"){
+geno_for_k <- function(geno, outfile="test", excludeB73=FALSE){
   
   ### get the pedigree info
   ped <- read.table("largedata/pheno/wholeset/asi_perse.txt", header=TRUE)
+  if(excludeB73){
+      bidx <- grep("B73", ped$Genotype)
+      ped <- ped[-bidx, ]
+  }
   ped$P1 <- gsub("x.*", "", ped$Genotype)
   ped$P2 <- gsub(".*x", "", ped$Genotype)
   
@@ -47,9 +51,10 @@ geno_for_k <- function(geno, outfile="test"){
   message(sprintf("###>>> DONE!")) 
 } 
 
+library("data.table")
 ### get the parental genotype info
-for(i in 0:10){
-  geno <- read.csv(paste0("largedata/SNP/randomsnp/rsnp", i, ".csv"))
+for(i in 9:10){
+  geno <- fread(paste0("largedata/SNP/randomsnp/rsnp", i, ".csv"), data.table=FALSE)
   
   ### output map file
   map <- geno[, c("snpid", "chr", "pos")]
@@ -57,6 +62,17 @@ for(i in 0:10){
   write.table(map, paste0("largedata/SNP/randomsnp/rsnp", i, ".map"), sep="\t", 
               row.names=FALSE, quote=FALSE)
   ### run the function
-  geno_for_k(geno, outfile= paste0("largedata/SNP/randomsnp/rsnp", i, "_chr"))
+  geno_for_k(geno, outfile= paste0("largedata/SNP/randomsnp/rsnp", i, "_chr"), excludeB73=TRUE)
 }
 
+for(i in 3:10){
+    geno <- fread(paste0("largedata/SNP/randomsnp/rsnp", i, ".csv"), data.table=FALSE)
+    
+    ### output map file
+    map <- geno[, c("snpid", "chr", "pos")]
+    map <- map[order(map$chr, map$pos), ]
+    write.table(map, paste0("largedata/SNP/randomsnp/rsnp", i, ".map"), sep="\t", 
+                row.names=FALSE, quote=FALSE)
+    ### run the function
+    geno_for_k(geno, outfile= paste0("largedata/SNP/randomsnp/rsnp", i, "_chr"), excludeB73=TRUE)
+}
