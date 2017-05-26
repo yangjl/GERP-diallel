@@ -23,3 +23,11 @@ get_pheno_mx <- function(){
 
 trait <- get_pheno_mx()
 idx <- which(names(trait) =="gy_perse")
+
+### exclude B73
+trait <- get_pheno_mx()
+b73idx <- grep("B73", trait$Sample_ID)
+trait <- trait[-b73idx, ]
+write.table(trait, "largedata/pheno/wholeset/trait_mx_noB73.dat", sep="\t", row.names=FALSE, quote=FALSE)
+idx <- which(names(trait) =="gy_perse")
+# 15

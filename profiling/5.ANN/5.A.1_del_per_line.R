@@ -65,6 +65,13 @@ newg <- g[, c(names(g)[1:9], ids)]
 res2 <- comp_two_lines(g=newg)
 write.table(res2, "cache/del_complemenation.csv", sep=",", row.names=FALSE, quote=FALSE)
 
+res22 <- subset(res2, pid1 != "B73")
+write.table(res22, "cache/del_complemenation_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
+range(res22$load)
+#[1] 47219 77210
+res22[which.min(res22$load),]
+res22[which.max(res22$load),]
+
 
 ##########
 comp_trait <- function(res2, pheno, excludeB73=TRUE){
@@ -142,9 +149,9 @@ pheno$Hyb <- paste(pheno$Par1, pheno$Par2, sep="_")
 
 
 res3 <- comp_trait(res2, pheno, excludeB73 = TRUE)
-write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(res3, "cache/complementation_rest_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-res3 <- read.csv("cache/complementation_rest.csv")
+res3 <- read.csv("cache/complementation_rest_noB73.csv")
 subset(res3, pheno %in% "MPH" & geno %in% "load" & pval < 0.05)
 
 res4 <- comp_trait(res2, pheno, excludeB73 = FALSE)
