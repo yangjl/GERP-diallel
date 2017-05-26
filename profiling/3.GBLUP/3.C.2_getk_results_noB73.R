@@ -6,6 +6,8 @@
 ##########################################
 getk <- function(filepath="largedata/snpeff/pBPH/", deff, q=0.9, method="q"){
     files <- list.files(path=filepath, pattern="perse", full.names=TRUE)
+    idx <- grep("snpe$", files)
+    files <- files[idx]
     
     output <- data.frame()
     for(i in 1:length(files)){

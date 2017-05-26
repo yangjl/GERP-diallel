@@ -198,7 +198,7 @@ dat <- subset(dat, !(trait %in% "SAMPLE") )
 plot_k_gerp(dat, med2, out, outfile=paste0("largedata/lgraphs/gerp_k", i, "x_tem.pdf"))
 
 
-write.table(dat, "largedata/gerpdat0x.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(dat, "largedata/gerpdat0x_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
 write.table(out, "cache/eff_adk_0x.csv", sep=",", row.names=FALSE, quote=FALSE)
 #write.table(out, "cache/s_estimation.csv", sep=",", row.names=FALSE, quote=FALSE)
 
