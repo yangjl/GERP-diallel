@@ -1,0 +1,27 @@
+// gensel input file written 2017-05-20 15:47:35
+analysisType Bayes
+bayesType BayesC
+chainLength 41000
+burnin 1000
+probFixed 0.99
+varGenotypic 402.862
+varResidual 23.4429
+nuRes 10
+degreesFreedomEffectVar 4
+outputFreq 100
+seed 1234
+mcmcSamples yes
+plotPosteriors no
+FindScale no
+modelSequence no
+isCategorical no
+addMapInfoToMarkers no
+windowBV no
+
+// markerFileName
+markerFileName /home/jolyang/Documents/Github/GERP-diallel/largedata/sgeno_100k/pht_k_h2.gs.newbin
+
+// phenotypeFileName
+phenotypeFileName /home/jolyang/Documents/Github/GERP-diallel/largedata/pheno/wholeset/pht_perse.txt
+
+// mapOrderFileName
