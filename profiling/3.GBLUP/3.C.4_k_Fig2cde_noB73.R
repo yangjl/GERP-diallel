@@ -12,7 +12,7 @@ plot_adk_gerp <- function(outfile, getpdf, fsize=18){
     
     dat$trait <- toupper(dat$trait)
     med2 <- read.csv("cache/loh_pMPH_median.csv")
-    out <- read.csv("cache/eff_adk_0x.csv")
+    out <- read.csv("cache/eff_adk_0x_noB73.csv")
     #cols <- wes_palette(7, name = "Zissou", type = "continuous")
     cols <- c("#f6546a", "#daa520", "#00ff00", "#66cdaa", "#3b5998", "#8a2be2", "#ff00ff")
     theme_set(theme_grey(base_size = 18)) 
