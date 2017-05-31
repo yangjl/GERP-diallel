@@ -53,23 +53,21 @@ dev.off()
 
 
 
-############
-res3 <- read.csv("largedata/newGERPv2/res_a2_perse_42000.csv")
-res4 <- read.csv("largedata/newGERPv2/res_a2_bph_42000.csv")
-res5 <- read.csv("largedata/newGERPv2/res_d2_perse_42000.csv")
-res6 <- read.csv("largedata/newGERPv2/res_d2_bph_42000.csv")
-res7 <- read.csv("largedata/newGERPv2/res_k5_perse_42000.csv")
-res8 <- read.csv("largedata/newGERPv2/res_k5_bph_42000.csv")
+############ FigS5
+res3 <- read.csv("largedata/res_a2_perse_42000.csv")
+res4 <- read.csv("largedata/res_a2_mph_42000.csv")
+res5 <- read.csv("largedata/res_d2_perse_42000.csv")
+res6 <- read.csv("largedata/res_d2_mph_42000.csv")
 
-pdf("graphs/FigS5_BPH_4plots.pdf", height=10, width=10)
+pdf("graphs/FigS5_MPH_4plots.pdf", height=10, width=12)
 par(mfrow=c(2,2))
 
-out3 <- mybean(res3, mymode = "a2", ylim=c(0, 1), main="Trait per se with additive", ylab="Cross-validation Accuracy")
-out5 <- mybean(res5, mymode = "d2", ylim=c(0, 1), main="Trait per se with dominance", ylab="Cross-validation Accuracy")
+out3 <- mybean(subset(res3, cs != 10), mymode = "a2", ylim=c(0, 1), main="Trait per se with additive model", ylab="Cross-validation Accuracy")
+out5 <- mybean(subset(res5, cs != 10), mymode = "d2", ylim=c(0, 1), main="Trait per se with dominance model", ylab="Cross-validation Accuracy")
 #out7 <- mybean(res7, mymode = "h2", ylim=c(0, 1), main="Incomplete Dominance", ylab="Cross-validation Accuracy")
 
-out4 <- mybean(res4, mymode = "a2", ylim=c(0, 1), main="Heterosis with additive", ylab="Cross-validation Accuracy")
-out6 <- mybean(res6, mymode = "d2", ylim=c(0, 1), main="Heterosis with dominance", ylab="Cross-validation Accuracy")
+out4 <- mybean(subset(res4, cs != 10), mymode = "a2", ylim=c(0, 1), main="Heterosis (MPH) with additive model", ylab="Cross-validation Accuracy")
+out6 <- mybean(subset(res6, cs != 10), mymode = "d2", ylim=c(0, 1), main="Heterosis (MPH) with dominance model", ylab="Cross-validation Accuracy")
 #out8 <- mybean(res8, mymode = "h2", ylim=c(0, 1), main="Incomplete Dominance", ylab="Cross-validation Accuracy")
 dev.off()
 
@@ -91,29 +89,7 @@ mybean(res2, mymode = "h2", ylim=c(0, 1), main="Heterosis", ylab="Cross-validati
 dev.off()
 
 
-############ For BAPG meeting
-my_BAPG_bean <- function(res0, mymode="a2", ...){
-  res0$mode <- as.character(res0$mode)
-  res1 <- subset(res0, mode == mymode)
-  res1$trait <- toupper(res1$trait)
-  #print(nrow(res1))
-  par(lend = 1, mai = c(0.8, 0.8, 0.5, 0.5))
-  res1$type <- factor(res1$type, levels = c("real", "random"))
-  res1$trait <- factor(res1$trait, levels = toupper(c("dtp", "pht", "gy")))
-  beanplot(m ~ type + trait, data = res1, kernel="cosine", ll = 0.04, cex=1.5, side = "both", bw=0.02,
-           border = NA, col = list(c("#d41243", "#d41243"), c("grey", "grey")), ...)
-  #legend("bottomleft", fill = c("black", "grey"),
-  #       legend = c("Group 2", "Group 1"))
-  #return(res0)
-  
-}
-res1 <- subset(res1, trait %in% c("dtp", "pht", "gy"))
-res2 <- subset(res2, trait %in% c("dtp", "pht", "gy"))
-pdf("graphs/Figure3_BAPG.pdf", height=5, width=10)
-par(mfrow=c(1,2))
-my_BAPG_bean(res1, mymode = "h2", ylim=c(0, 1), main="Trait per se", ylab="Cross-validation Accuracy")
-my_BAPG_bean(res2, mymode = "h2", ylim=c(0, 1), main="Heterosis", ylab="Cross-validation Accuracy")
-dev.off()
+
 
 
 
