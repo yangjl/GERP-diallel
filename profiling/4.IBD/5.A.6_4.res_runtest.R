@@ -67,9 +67,13 @@ t5 <- runttest(res0=res5)
 
 
 ###### MPH
-res1 <- read.csv("largedata/newGERPv2/res_realk_mph_42000.csv")
-t1 <- runttest(res0=res1)
+res6 <- read.csv("largedata/newGERPv2/res_a2_mph_42000.csv")
+t6 <- runttest(res0=res6)
 
-t5 <- runttest(res0=res_k)
+res7 <- read.csv("largedata/newGERPv2/res_d2_mph_42000.csv")
+t7 <- runttest(res0=res7)
+
+res8 <- read.csv("largedata/newGERPv2/res_realk_mph_42000.csv")
+t8 <- runttest(res0=res8)
 
 

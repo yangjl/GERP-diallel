@@ -198,34 +198,10 @@ dat <- subset(dat, !(trait %in% "SAMPLE") )
 plot_k_gerp(dat, med2, out, outfile=paste0("largedata/lgraphs/gerp_k", i, "x_tem.pdf"))
 
 
-write.table(dat, "largedata/gerpdat0x.csv", sep=",", row.names=FALSE, quote=FALSE)
-write.table(out, "cache/eff_adk_0x.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(dat, "largedata/gerpdat0x_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(out, "cache/eff_adk_0x_noB73.csv", sep=",", row.names=FALSE, quote=FALSE)
 #write.table(out, "cache/s_estimation.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-write.table(dat, "largedata/gerpdat5x.csv", sep=",", row.names=FALSE, quote=FALSE)
-write.table(out, "cache/eff_adk_5x.csv", sep=",", row.names=FALSE, quote=FALSE)
-
-###########################
-med2$l <- getlty(df=out, eff="effa", cutoff=0.05)$l
-
-cols <- c("#f6546a", "#daa520", "#00ff00", "#66cdaa", "#3b5998", "#8a2be2", "#ff00ff")
-theme_set(theme_grey(base_size = 18)) 
-le <- ggplot(dat, aes(x=RS, y=Effect_A, colour=factor(trait, levels=med2$trait),
-                      linetype=factor(trait, levels=med2$trait))) +
-    #geom_point(shape=1) +    # Use hollow circles
-    labs(colour="Traits", linetype="type") +
-    theme_bw() +
-    xlab("GERP Score") +
-    ylab("Total Variance") +
-    #guides(colour=FALSE) +
-    scale_colour_manual(values=cols) +
-    scale_linetype_manual(values=med2$l) +
-    theme(axis.text.y = element_text(angle = 90, hjust = 1)) +
-    geom_smooth(method="gam", size=1.3) 
-
-pdf("graphs/Fig4_k_others_legend.pdf", width=4, height=4)
-le
-dev.off()
 
 
 

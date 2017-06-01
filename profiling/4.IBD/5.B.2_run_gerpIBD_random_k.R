@@ -49,7 +49,24 @@ run_gerpIBD(inputdf1, email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm"
 ###>>> In this path: cd /home/jolyang/Documents/Github/GERP-diallel
 ###>>> RUN: sbatch -p bigmemm --mem 8G --ntasks=1 --time=8:00:00 slurm-script/run_gerpibd_array.sh
 
+############### trait-specific adk
+kout <- list.files(path="largedata/snpeff/perse", pattern="_k_stime0", full.names=TRUE)
+#gerpfile <- list.files(path="largedata/newGERPv2/allgeno", pattern="cs0.csv$", full.names=TRUE)
 
+inputdf1 <- data.frame(
+    d="largedata/IBD/allsnps_11m_IBD.bed", 
+    s="largedata/SNP/allsnps2_newgerp2_50k.dsf7", #define deleterious alleles
+    g= "largedata/newGERPv2/allgeno/gerpv2_b0_cs0.csv",
+    f= kout, # degree of dominance, k values
+    out=gsub("snpeff\\/perse", "sgeno", gsub(".txt", "", kout)),
+    l=0,
+    t="adk"
+)
+
+library(farmeR)
+run_gerpIBD(inputdf1, email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm", 1) )
+###>>> In this path: cd /home/jolyang/Documents/Github/GERP-diallel
+###>>> RUN: sbatch -p bigmemm --mem 8G --ntasks=1 --time=8:00:00 slurm-script/run_gerpibd_array.sh
 
 
 
