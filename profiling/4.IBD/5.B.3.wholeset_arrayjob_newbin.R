@@ -31,16 +31,16 @@ gsfiles <- list.files(path="/home/jolyang/Documents/Github/GERP-diallel/largedat
 
 inputdf <- data.frame(
     pi=0.995, geno=gsfiles,
-    trainpheno="/home/jolyang/Documents/Github/pvpDiallel/largedata/pheno/CV5fold/gy_train1_sp1.txt",
-    testpheno="/home/jolyang/Documents/Github/pvpDiallel/largedata/pheno/CV5fold/gy_test1_sp1.txt",
+    trainpheno="/home/jolyang/Documents/Github/GERP-diallel/largedata/pheno/CV5fold/gy_train1_sp1.txt",
+    testpheno="/home/jolyang/Documents/Github/GERP-diallel/largedata/pheno/CV5fold/gy_test1_sp1.txt",
     chainLength=10, burnin=1, varGenotypic=1.4, varResidual=2,
     out = gsub(".*/|.gs", "", gsfiles)
 )
 
-run_GenSel4(inputdf, inpdir="largedata/sgeno/", cmdno = 1,
-            email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemh", 1) )
+run_GenSel4(inputdf, cv=TRUE, inpdir="largedata/sgeno/", cmdno = 1,
+            email="yangjl0930@gmail.com", runinfo = c(FALSE, "bigmemm", 1) )
 ###>>> In this path: cd /home/jolyang/Documents/Github/GERP-diallel
-###>>> RUN: sbatch -p bigmemh --mem 8G --ntasks=1 --time=8:00:00 slurm-script/run_gensel_array.sh
+###>>> RUN: sbatch -p bigmemm --mem 8G --ntasks=1 --time=8:00:00 slurm-script/run_gensel_array.sh
 
 
 

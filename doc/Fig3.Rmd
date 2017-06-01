@@ -28,51 +28,50 @@ library(ggplot2)
 source("lib/multiplot.R")
 
 plot_fig3ab <- function(outfile, getpdf){
-  res1 <- read.csv("cache/gerpsnp_wholeset_perse.csv")
-  res2 <- read.csv("cache/gerpsnp_wholeset_bph.csv")
+  res <- read.csv("cache/var_explained_adk.csv")
+  res1 <- subset(res, trait %in% "perse")
+  res2 <- subset(res, trait %in% "MPH")
 
-  res1$trait <- toupper(res1$trait)
-  res2$trait <- toupper(res2$trait)
-
-  h <- read.csv("cache/loh_pBPHmax_median.csv")
-  med2 <- h
-  med2$traitlw <- med2$trait
+  res1$pheno <- toupper(res1$pheno)
+  res2$pheno <- toupper(res2$pheno)
+  
+  t <- read.csv("data/hyb_heterosis.csv")
+  bymed2 <- with(t, reorder(trait, abs(pMPH), median))
   #bymed2 <- with(trait, reorder(trait, pBPHmax, median))
-  bymed2 <- med2[order(med2$h),]
-
-
-p1 <- ggplot(res1, aes(x=factor(trait, levels=bymed2$traitlw), y=h2,
-                       fill=factor(mode, levels=c("a2", "d2", "h2"), labels=c("A", "D", "k")))) + 
+  
+  p1 <- ggplot(res1, aes(x=factor(pheno, levels=levels(bymed2)), y=h2,
+                       fill=factor(type, levels=c("a2", "d2", "h2"), labels=c("A", "D", "k")))) + 
   geom_bar(position=position_dodge(), stat="identity") +
   xlab("") +
   ylim(c(0,1)) +
-  ylab("Posterior Variance Explained") +
+  ylab("Phenotypic Variance Explained") +
   ggtitle("") + theme_bw() +
   labs(fill="Effect") +
-  theme(axis.text = element_text(angle = 90, hjust = 1, size=fsize),
+  theme(axis.text = element_text(size=fsize),
           axis.title=element_text(size=fsize, face="bold"),
           legend.title = element_text(size=fsize, face="bold"),
           legend.text = element_text(size=fsize))
-
-p2 <- ggplot(res2, aes(x=factor(trait, levels=bymed2$traitlw), y=h2, 
-                       fill=factor(mode, levels=c("a2", "d2", "h2"), labels=c("A", "D", "k")))) + 
+  
+  p2 <- ggplot(res2, aes(x=factor(pheno, levels=levels(bymed2)), y=h2, 
+                       fill=factor(type, levels=c("a2", "d2", "h2"), labels=c("A", "D", "k")))) + 
   geom_bar(position=position_dodge(), stat="identity") +
   xlab("") +
   ylim(c(0,1)) +
-  ylab("Posterior Variance Explained") +
+  ylab("Phenotypic Variance Explained") +
   ggtitle("") + theme_bw() +
   labs(fill="Effect") +
-  theme(axis.text = element_text(angle = 90, hjust = 1, size=fsize),
+  theme(axis.text = element_text(size=fsize),
           axis.title=element_text(size=fsize, face="bold"),
           legend.title = element_text(size=fsize, face="bold"),
           legend.text = element_text(size=fsize))
 
   multiplot(p1, p2, cols=2)
   if(getpdf){
-    pdf(outfile, width=10, height=4.5)
+    pdf(outfile, width=12, height=5)
     multiplot(p1, p2, cols=2)
     dev.off()
   }
+
 }
 ######
 plot_fig3ab(outfile="graphs/Fig_post_var.pdf", getpdf)
@@ -99,7 +98,7 @@ mybean <- function(inputdf, mymode="a2", ...){
   #print(nrow(res1))
   par(lend = 1, mai = c(0.8, 0.8, 0.5, 0.5))
   res1$type <- factor(res1$type, levels = c("real", "cs"))
-  res1$trait <- factor(res1$trait, levels = toupper(c("tw", "dtp", "dts", "asi","pht", "eht", "gy")))
+  res1$trait <- factor(res1$trait, levels = toupper(c("TW",  "DTP", "DTS", "PHT", "EHT", "ASI", "GY")))
   beanplot(m ~ type + trait, data = res1, kernel="cosine", ll = 0.04, cex=1.5, side = "both", bw=0.02,
            border = NA, col = list(c("#d41243", "#d41243"), c("grey", "grey")), ...)
   #legend("bottomleft", fill = c("black", "grey"),
@@ -107,7 +106,7 @@ mybean <- function(inputdf, mymode="a2", ...){
   #return(res0)
   
   out <- data.frame()
-  myt <- toupper(c("tw", "dtp", "dts", "asi","pht", "eht", "gy"))
+  myt <- toupper(c("TW",  "DTP", "DTS", "PHT", "EHT", "ASI", "GY"))
   for(myti in myt){
     real <- subset(res1, type == "real" & trait == myti)
     rand <- subset(res1, type == "cs" & trait == myti)
@@ -124,8 +123,8 @@ mybean <- function(inputdf, mymode="a2", ...){
 
 ####
 plot_fig3cd <- function(outfile, getpdf){
-  res01 <- read.csv("largedata/newGERPv2/res_realk_perse_42000.csv")
-  res02 <- read.csv("largedata/newGERPv2/res_realk_bph_42000.csv")
+  res01 <- read.csv("largedata/res_realk_perse_42000.csv")
+  res02 <- read.csv("largedata/res_realk_mph_42000.csv")
   
   par(mfrow=c(1,2))
   #par(mar=c(5,4,4,2))
@@ -133,7 +132,7 @@ plot_fig3cd <- function(outfile, getpdf){
   res2 <- mybean(inputdf=res02, mymode = "h2", ylim=c(0, 1), main="", ylab="Cross-validation Accuracy")
   
   if(getpdf){
-    pdf(outfile, height=5, width=10)
+    pdf(outfile, height=5, width=12)
     par(mfrow=c(1,2))
     #par(mar=c(5,4,4,2))
     par(font=2, font.lab=2, font.axis=2)
