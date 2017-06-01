@@ -13,8 +13,8 @@ This project contains ~400 commits. A `largedata` directory was intentionally ig
 3. **doc**: Documentation codes (i.e. Rmd files) for generating the figures.
 4. **graphs**: Graphs produced during the study.
 5. **lib**: Some functions for our work.
-6. **munge**: Here we store some preprocessing or data munging codes.
-7. **profilling**: Analysis scripts for the project. It contains some sub-directories.
+6. **profilling**: Analysis scripts for the project. It contains some sub-directories.
+7. **table**: Table produced during the study.
 
 ## Figures
 Rmd code to generate Figures in the paper.
