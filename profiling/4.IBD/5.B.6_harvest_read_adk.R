@@ -43,30 +43,24 @@ SplitName <- function(infile=resout){
   
   infile$file <- as.character(infile$file)
   infile$file <- gsub(".*\\/", "", infile$file)
+  infile$file <- gsub(".out1", "", infile$file)
   
-  infile$stime <- gsub(".*_stime|_.*", "", infile$file)
+  #infile$stime <- gsub(".*_stime|_.*", "", infile$file)
+  infile$pheno <- gsub("_.*", "", infile$file)
+  infile$type <- gsub(".*_", "", infile$file)
+  
+  infile$file <- gsub("^.{2}_|^.{3}_", "", infile$file)
   infile$trait <- gsub("_.*", "", infile$file)
+  
   return(infile)
 }
 
-res1 <- harvest_gsout(dir="largedata/sgeno", fileptn="\\.out")
-res2 <- SplitName(infile=res1) #885
-
-write.table(res2, "largedata/var_explained_shuffling.csv", 
-            sep=",", row.names=FALSE, quote=FALSE)
-
-#### 100-kb
-res1 <- harvest_gsout(dir="slurm-script/subgeno", fileptn="\\.out")
-res2 <- SplitName(infile=res1) #885
-res2$trait <- gsub("ws_|_h2.*", "", res2$file)
-write.table(res2, "largedata/var_explained_100kb.csv", 
-            sep=",", row.names=FALSE, quote=FALSE)
 
 
 #### read adk
-res1 <- harvest_gsout(dir="slurm-script/sgeno", fileptn="stime0")
+res1 <- harvest_gsout(dir="largedata/sgeno", fileptn="\\.out")
 res2 <- SplitName(infile=res1) #885
-res2$trait <- gsub("ws_|_h2.*", "", res2$file)
-write.table(res2, "largedata/var_explained_100kb.csv", 
+
+write.table(res2, "cache/var_explained_adk.csv", 
             sep=",", row.names=FALSE, quote=FALSE)
 
