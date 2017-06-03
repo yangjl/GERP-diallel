@@ -37,7 +37,7 @@ names(g)[4] <- "del"
 
 ### deleterious alleles carried by each line
 res <- get_per_line_v2(g)
-write.table(res, "cache/del_per_line.csv", sep=",", row.names=FALSE, quote=FALSE)
+write.table(res, "cache/del_per_line_sorghum.csv", sep=",", row.names=FALSE, quote=FALSE)
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
