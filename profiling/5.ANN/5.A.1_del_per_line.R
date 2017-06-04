@@ -73,6 +73,10 @@ res22[which.min(res22$load),]
 res22[which.max(res22$load),]
 
 
+c1 <- read.csv("cache/del_complemenation.csv")
+c2 <- read.csv("cache/del_complemenation_noB73.csv")
+
+
 ##########
 comp_trait <- function(res2, pheno, excludeB73=TRUE){
     
@@ -162,4 +166,16 @@ res4 <- comp_trait(res2, pheno, excludeB73 = FALSE)
 write.table(res3, "cache/complementation_rest.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 res3 <- read.csv("cache/complementation_rest.csv")
-subset(res3, pheno %in% "MPH" & geno %in% "load" & pval < 0.05)
+subset(res3, pheno %in% "perse" & geno %in% "load" & pval < 0.05)
+stable2 <- subset(res3, pheno %in% c("perse", "MPH") & geno %in% "load")
+
+stable$withB73 <- "no"
+stable2$withB73 <- "yes"
+st <- rbind(stable, stable)
+write.table(st[, -3], "table/Table_hyb_load_pheno.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+
+
+
+
+
