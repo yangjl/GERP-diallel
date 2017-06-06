@@ -169,9 +169,11 @@ res3 <- read.csv("cache/complementation_rest.csv")
 subset(res3, pheno %in% "perse" & geno %in% "load" & pval < 0.05)
 stable2 <- subset(res3, pheno %in% c("perse", "MPH") & geno %in% "load")
 
+
+
 stable$withB73 <- "no"
 stable2$withB73 <- "yes"
-st <- rbind(stable, stable)
+st <- rbind(stable, stable2)
 write.table(st[, -3], "table/Table_hyb_load_pheno.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 
