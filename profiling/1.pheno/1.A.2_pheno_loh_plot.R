@@ -7,7 +7,7 @@
 plot_loh <- function(trait,  ...){
   bymed2 <- with(trait, reorder(trait, pMPH, median))
   boxplot(pMPH ~ bymed2, data=trait,
-          xlab = "", ylab= "MPH (100%)", col="antiquewhite3", 
+          xlab = "", ylab= "Mid-Parent Heterosis (100%)", col="antiquewhite3", 
           ...)
 }
 ##### note: change to abs value

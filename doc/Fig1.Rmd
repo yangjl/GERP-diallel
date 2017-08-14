@@ -34,7 +34,7 @@ plotloh <- function(getpdf, outfile, ...){
     pdf(outfile, width=ht, height=wt)
     par(mar=c(5,5,4,2))
     boxplot(pMPH ~ bymed2, data=trait,
-          xlab = "", ylab= "MPH (100%)", col="antiquewhite3", 
+          xlab = "", ylab= "Mid-Parent Heterosis (100%)", col="antiquewhite3", 
           ...)
     dev.off()
   }
