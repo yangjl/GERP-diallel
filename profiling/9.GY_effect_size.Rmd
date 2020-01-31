@@ -1,0 +1,23 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+snpeff <- read.csv("cache/eff_adk_0x.csv")
+
+library(data.table)
+dat <- fread("largedata/gerpdat0x.csv", data.table=FALSE) 
+
+gy <- subset(dat, trait == "GY")
+mean(abs(gy$Effect_A))
+mean(gy$Effect_A)
+
+write.table(gy, "largedata/gy_effect_size.csv", sep=",", row.names = FALSE, quote=FALSE)
+
+```
+
