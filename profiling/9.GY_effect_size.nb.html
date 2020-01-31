@@ -1753,14 +1753,19 @@ summary {
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUudGFibGUoZ3ksIFwibGFyZ2VkYXRhL2d5X2VmZmVjdF9zaXplLmNzdlwiLCBzZXA9XCIsXCIsIHJvdy5uYW1lcyA9IEZBTFNFLCBxdW90ZT1GQUxTRSlcblxuYGBgIn0= -->
-<pre class="r"><code>write.table(gy, &quot;largedata/gy_effect_size.csv&quot;, sep=&quot;,&quot;, row.names = FALSE, quote=FALSE)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc25wZWZmIDwtIHJlYWQuY3N2KFwiY2FjaGUvZWZmX2Fka18weC5jc3ZcIilcblxubGlicmFyeShkYXRhLnRhYmxlKVxuZGF0IDwtIGZyZWFkKFwibGFyZ2VkYXRhL2dlcnBkYXQweC5jc3ZcIiwgZGF0YS50YWJsZT1GQUxTRSkgXG5cbmd5IDwtIHN1YnNldChkYXQsIHRyYWl0ID09IFwiR1lcIilcbm1lYW4oYWJzKGd5JEVmZmVjdF9BKSlcbm1lYW4oZ3kkRWZmZWN0X0EpXG5cbndyaXRlLnRhYmxlKGd5LCBcImxhcmdlZGF0YS9neV9lZmZlY3Rfc2l6ZS5jc3ZcIiwgc2VwPVwiLFwiLCByb3cubmFtZXMgPSBGQUxTRSwgcXVvdGU9RkFMU0UpXG5cbmBgYCJ9 -->
+<pre class="r"><code>snpeff &lt;- read.csv(&quot;cache/eff_adk_0x.csv&quot;)
+
+library(data.table)
+dat &lt;- fread(&quot;largedata/gerpdat0x.csv&quot;, data.table=FALSE) 
+
+gy &lt;- subset(dat, trait == &quot;GY&quot;)
+mean(abs(gy$Effect_A))
+mean(gy$Effect_A)
+
+write.table(gy, &quot;largedata/gy_effect_size.csv&quot;, sep=&quot;,&quot;, row.names = FALSE, quote=FALSE)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiY2Fubm90IG9wZW4gZmlsZSAnbGFyZ2VkYXRhL2d5X2VmZmVjdF9zaXplLmNzdic6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnlFcnJvciBpbiBmaWxlKGZpbGUsIGlmZWxzZShhcHBlbmQsIFwiYVwiLCBcIndcIikpIDogXG4gIGNhbm5vdCBvcGVuIHRoZSBjb25uZWN0aW9uXG4ifQ== -->
-<pre><code>cannot open file 'largedata/gy_effect_size.csv': No such file or directoryError in file(file, ifelse(append, &quot;a&quot;, &quot;w&quot;)) : 
-  cannot open the connection</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
